@@ -1,0 +1,3 @@
+[submodule "obscure"]
+	path = obscure
+	url = git@github.com:hen3-steenberg/obscure.git
