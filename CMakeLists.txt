@@ -15,11 +15,13 @@ add_executable(cos3712)
 target_sources(cos3712
     PRIVATE
         "src/cos3712.cpp"
-        "src/resources/resources.cxx"
+        "src/resources/Resources.cxx"
     PUBLIC FILE_SET
     CXX_MODULES FILES
-        "src/menu_overlay.cppm"
-        "src/resources.cppm"
+        "src/GlobalState.cppm"
+        "src/MenuOverlay.cppm"
+        "src/Resources.cppm"
+        "src/Camera.cppm"
 )
 target_link_libraries(cos3712 PRIVATE obscure)
 target_link_libraries(cos3712 PRIVATE imgui)

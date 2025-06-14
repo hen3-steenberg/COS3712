@@ -16,8 +16,10 @@ import obscure.utils.stopwatch;
 import obscure.builtin.pipelines.color_2d;
 import obscure.builtin.pipelines.texture_3d2d;
 import obscure.imgui;
+import GlobalState;
 import MenuOverlay;
-import resources;
+import Resources;
+import Camera;
 
 using pipeline_t = obscure::builtin::pipeline::texture_3d2d;
 using gfx_ctx_t = obscure::graphics_context<pipeline_t>;
@@ -82,10 +84,9 @@ int main()
 
 	{
 		gfx_ctx_t app{};
+		global::windowRef() = app.window.get_window_ref();
 		obscure::imgui::ctx imgui_ctx{app};
 		object_3d model_3d = object_3d::load(app);
-
-		glm::mat4 view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
 
 		obscure::stopwatch<float> frame_timer{};
@@ -102,11 +103,11 @@ int main()
 					auto extent = frame.get_extent();
 
 					float time = frame_timer.total_time().count();
-					glm::mat4 model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-					glm::mat4 proj = glm::perspective(glm::radians(45.0f), extent.width / (float) extent.height, 0.1f, 10.0f);
+					glm::mat4 model = glm::identity<glm::mat4>(); //glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+					glm::mat4 proj = glm::perspective(glm::radians(60.0f), extent.width / (float) extent.height, 0.1f, 100.0f);
 					proj[1][1]*= -1;
 
-					glm::mat4 viewproj = proj * view;
+					glm::mat4 viewproj = proj * GetCameraTransform();
 
 					frame.draw_texture_2d(viewproj, model, model_3d.vertex_buffer, model_3d.index_buffer, model_3d.color_texture);
 				}

@@ -2,7 +2,7 @@ module;
 #include <span>
 #include <string>
 #include "stb/stb_image.h"
-module resources;
+module Resources;
 
 constexpr const char viking_room_png_data[] = {
 #embed "viking_room.png"
