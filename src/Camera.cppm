@@ -78,7 +78,6 @@ glm::vec3 calculateCameraOrientation(float & pan, float & tilt) noexcept {
 export glm::mat4 GetCameraTransform() noexcept
 {
     static constexpr float camera_speed = 3.0f;
-    static glm::vec3 position {2.0f, 2.0f, 2.0f};
     static glm::vec3 orientation {-1.0f, 0.0f, 0.0f};
     static float pan_angle = 2.0f;
     static float tilt_angle = 0.0f;
@@ -90,7 +89,7 @@ export glm::mat4 GetCameraTransform() noexcept
 
     if (global::CurrentCameraMode() == global::CameraMode::Free) {
 
-        position += camera_speed * elapsed_seconds * updateCameraPosition(orientation);
+        global::cameraPosition() += camera_speed * elapsed_seconds * updateCameraPosition(orientation);
 
 #pragma region rotation
 
@@ -110,14 +109,14 @@ export glm::mat4 GetCameraTransform() noexcept
         prev_y = mouse_y;
 
 #pragma endregion
-        return glm::lookAt(position, position + orientation, glm::vec3{0.0f, 0.0f, 1.0f});
+        return glm::lookAt(global::cameraPosition(), global::cameraPosition() + orientation, glm::vec3{0.0f, 0.0f, 1.0f});
     }
     else {
 
 
         glm::vec3 up = glm::normalize(glm::vec3{orientation.x, orientation.y, 0.0f});
 
-        position += camera_speed * elapsed_seconds * updateCameraPosition(up);
+        global::cameraPosition() += camera_speed * elapsed_seconds * updateCameraPosition(up);
 
 #pragma region rotation
 
@@ -131,7 +130,7 @@ export glm::mat4 GetCameraTransform() noexcept
 
 #pragma endregion
 
-        return glm::lookAt(position, position + glm::vec3{0.0f, 0.0f, -1.0f}, up);
+        return glm::lookAt(global::cameraPosition(), global::cameraPosition() + glm::vec3{0.0f, 0.0f, -1.0f}, up);
     }
 
 

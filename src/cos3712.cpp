@@ -16,13 +16,16 @@ import obscure.utils.stopwatch;
 import obscure.builtin.pipelines.color_2d;
 import obscure.builtin.pipelines.texture_3d2d;
 import obscure.imgui;
+
+
 import GlobalState;
 import MenuOverlay;
 import Resources;
 import Camera;
+import Floor;
 
 using pipeline_t = obscure::builtin::pipeline::texture_3d2d;
-using gfx_ctx_t = obscure::graphics_context<pipeline_t>;
+using gfx_ctx_t = obscure::graphics_context<pipeline_t, Floor>;
 using vertex_t = obscure::builtin::pipeline::texture_3d2d_vertex;
 
 struct object_3d
@@ -38,7 +41,7 @@ struct object_3d
 		tinyobj::ObjReader reader;
 		tinyobj::ObjReaderConfig config{};
 		config.triangulate = true;
-		if (!reader.ParseFromString(viking_room_obj(), "", config))
+		if (!reader.ParseFromString(resources::viking_room_obj(), "", config))
 		{
 			throw std::runtime_error("Failed to parse obj file");
 		}
@@ -69,7 +72,7 @@ struct object_3d
 		return object_3d {
 			ctx.init_vertex_buffer<vertex_t>(vertices),
 			ctx.init_index_buffer<uint32_t>(indices),
-			ctx.load_texture<pipeline_t>(viking_room_png(), 0)
+			ctx.load_texture<pipeline_t>(resources::viking_room_png(), 0)
 		};
 	}
 };
@@ -100,6 +103,7 @@ int main()
 			{
 				auto frame = app.begin_frame();
 				{
+
 					auto extent = frame.get_extent();
 
 					float time = frame_timer.total_time().count();
@@ -109,9 +113,11 @@ int main()
 
 					glm::mat4 viewproj = proj * GetCameraTransform();
 
+					frame.draw_floor(viewproj);
 					frame.draw_texture_2d(viewproj, model, model_3d.vertex_buffer, model_3d.index_buffer, model_3d.color_texture);
 				}
 				drawMenuOverlay(frame.get_command_buffer());
+
 			}
 			app.submit_frame();
 			app.draw_frame();

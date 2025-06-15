@@ -1,5 +1,6 @@
 module;
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 export module GlobalState;
 export import obscure.glfw;
 
@@ -32,5 +33,10 @@ export namespace global
         else {
             CurrentCameraMode() = CameraMode::TopDown;
         }
+    }
+
+    glm::vec3 & cameraPosition() {
+        static glm::vec3 camera_position {0.0f, 0.0f, 2.0f};
+        return camera_position;
     }
 }

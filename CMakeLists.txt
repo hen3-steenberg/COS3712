@@ -4,9 +4,11 @@ project ("COS3712" CXX)
 
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -flto")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory("obscure")
+add_subdirectory("shaders")
 
 
 
@@ -22,7 +24,9 @@ target_sources(cos3712
         "src/MenuOverlay.cppm"
         "src/Resources.cppm"
         "src/Camera.cppm"
+        "src/Floor.cppm"
 )
 target_link_libraries(cos3712 PRIVATE obscure)
 target_link_libraries(cos3712 PRIVATE imgui)
+add_dependencies(cos3712 custom_shaders)
 
