@@ -34,6 +34,24 @@ const std::string & resources::viking_room_obj()
     static const std::string viking_room_obj_str{ viking_room_obj_data };
     return viking_room_obj_str;
 }
+
+constexpr const char portal_building_obj_data[] = {
+#embed "objects/portal_building.obj"
+};
+
+const std::string & resources::portal_obj() {
+    static const std::string portal_building_obj_str{ portal_building_obj_data };
+    return portal_building_obj_str;
+}
+
+constexpr const char portal_building_mtl_data[] = {
+#embed "objects/portal_building.mtl"
+};
+
+const std::string & resources::portal_mtl() {
+    static const std::string portal_building_mtl_str{ portal_building_mtl_data };
+    return portal_building_mtl_str;
+}
 #pragma endregion
 
 #pragma region shaders
@@ -73,6 +91,26 @@ constexpr const uint8_t floor_fragment_data[] = {
 template<>
 std::span<const uint32_t> resources::get_data<shader_name::floor_fragment>() {
     return get_shader_data(floor_fragment_data);
+}
+
+constexpr const uint8_t building_vertex_data[] = {
+#embed "shaders/building.vert.spv"
+    , 0, 0, 0, 0
+};
+
+template<>
+std::span<const uint32_t> resources::get_data<shader_name::building_vertex>() {
+    return get_shader_data(building_vertex_data);
+}
+
+constexpr const uint8_t building_fragment_data[] = {
+#embed "shaders/building.frag.spv"
+    , 0, 0, 0, 0
+};
+
+template<>
+std::span<const uint32_t> resources::get_data<shader_name::building_fragment>() {
+    return get_shader_data(building_fragment_data);
 }
 
 #pragma endregion

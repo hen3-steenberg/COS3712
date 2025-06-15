@@ -25,6 +25,7 @@ target_sources(cos3712
         "src/Resources.cppm"
         "src/Camera.cppm"
         "src/Floor.cppm"
+        "src/BuildingPipe.cppm"
 )
 target_link_libraries(cos3712 PRIVATE obscure)
 target_link_libraries(cos3712 PRIVATE imgui)

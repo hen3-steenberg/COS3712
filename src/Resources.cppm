@@ -18,12 +18,18 @@ export namespace resources
 
     const std::string & viking_room_obj();
 
+    const std::string & portal_obj();
+
+    const std::string & portal_mtl();
+
 #pragma endregion
 
 #pragma region shaders
     enum class shader_name {
         floor_vertex,
         floor_fragment,
+        building_vertex,
+        building_fragment
     };
 
     template<shader_name shader>
@@ -34,6 +40,12 @@ export namespace resources
 
     template<>
     std::span<const uint32_t> get_data<shader_name::floor_fragment>();
+
+    template<>
+    std::span<const uint32_t> get_data<shader_name::building_vertex>();
+
+    template<>
+    std::span<const uint32_t> get_data<shader_name::building_fragment>();
 #pragma endregion
 }
 

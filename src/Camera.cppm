@@ -77,7 +77,7 @@ glm::vec3 calculateCameraOrientation(float & pan, float & tilt) noexcept {
 
 export glm::mat4 GetCameraTransform() noexcept
 {
-    static constexpr float camera_speed = 3.0f;
+    static constexpr float camera_speed = 10.0f;
     static glm::vec3 orientation {-1.0f, 0.0f, 0.0f};
     static float pan_angle = 2.0f;
     static float tilt_angle = 0.0f;

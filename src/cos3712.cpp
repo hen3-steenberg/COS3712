@@ -4,76 +4,75 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vulkan/vulkan.hpp>
-#include <filesystem>
-#include <iostream>
-#include <string>
-
-#define TINYOBJLOADER_IMPLEMENTATION
-#include "tiny_obj_loader.h"
 
 import obscure.vulkan;
-import obscure.utils.stopwatch;
-import obscure.builtin.pipelines.color_2d;
-import obscure.builtin.pipelines.texture_3d2d;
 import obscure.imgui;
-
 
 import GlobalState;
 import MenuOverlay;
 import Resources;
 import Camera;
 import Floor;
+import Building;
 
-using pipeline_t = obscure::builtin::pipeline::texture_3d2d;
-using gfx_ctx_t = obscure::graphics_context<pipeline_t, Floor>;
-using vertex_t = obscure::builtin::pipeline::texture_3d2d_vertex;
+struct app_t {
+	using gfx_ctx_t = obscure::graphics_context<BuildingPipe, Floor>;
+	using frame_t = gfx_ctx_t::command_session_t;
 
-struct object_3d
-{
-	obscure::vulkan::vertex_buffer<vertex_t> vertex_buffer;
-	obscure::vulkan::index_buffer<uint32_t> index_buffer;
-	obscure::vulkan::rgba_2d_texture<> color_texture;
+	gfx_ctx_t gfx_ctx;
+	obscure::imgui::ctx imgui_ctx;
+	BuildingObj portal;
 
-	static object_3d load(gfx_ctx_t const& ctx)
+
+	app_t()
+		: gfx_ctx(),
+		imgui_ctx(gfx_ctx),
+		portal(BuildingObj::load_from_memory(gfx_ctx, resources::portal_obj(), resources::portal_mtl()))
 	{
+		global::windowRef() = gfx_ctx.window.get_window_ref();
+	}
 
+	void loop(frame_t frame) {
+#pragma region perspective
+		auto extent = frame.get_extent();
 
-		tinyobj::ObjReader reader;
-		tinyobj::ObjReaderConfig config{};
-		config.triangulate = true;
-		if (!reader.ParseFromString(resources::viking_room_obj(), "", config))
+		glm::mat4 proj = glm::perspective(glm::radians(60.0f), extent.width / (float) extent.height, 0.1f, 1000.0f);
+		proj[1][1]*= -1;
+
+		glm::mat4 viewproj = proj * GetCameraTransform();
+#pragma endregion
+
+#pragma region floor
+
+		frame.draw_floor(viewproj);
+
+#pragma endregion
+
+#pragma region buildings
+
+		frame.draw_building(viewproj, portal);
+
+#pragma endregion
+
+#pragma region overlay
+
+		drawMenuOverlay(frame.get_command_buffer());
+
+#pragma endregion
+	}
+
+	void run() {
+		while (!gfx_ctx.window.should_close())
 		{
-			throw std::runtime_error("Failed to parse obj file");
-		}
-
-		std::vector<vertex_t> vertices;
-		std::vector<uint32_t> indices;
-
-		for (auto const& shape : reader.GetShapes())
-		{
-			for (auto index : shape.mesh.indices)
+			glfwPollEvents();
+			if (gfx_ctx.window.isKeyPressed(GLFW_KEY_ESCAPE) || MenuExit())
 			{
-				vertices.emplace_back(vertex_t {
-					{
-						reader.GetAttrib().vertices[3 * index.vertex_index + 0],
-						reader.GetAttrib().vertices[3 * index.vertex_index + 1],
-						reader.GetAttrib().vertices[3 * index.vertex_index + 2]
-					},
-					{
-						reader.GetAttrib().texcoords[2 * index.texcoord_index + 0],
-						1.0f - reader.GetAttrib().texcoords[2 * index.texcoord_index + 1]
-					}
-				});
-
-				indices.emplace_back(indices.size());
+				break;
 			}
+			loop(gfx_ctx.begin_frame());
+			gfx_ctx.submit_frame();
+			gfx_ctx.draw_frame();
 		}
-
-		return object_3d {
-			ctx.init_vertex_buffer<vertex_t>(vertices),
-			ctx.init_index_buffer<uint32_t>(indices),
-			ctx.load_texture<pipeline_t>(resources::viking_room_png(), 0)
-		};
 	}
 };
 
@@ -81,47 +80,9 @@ struct object_3d
 int main()
 {
 	obscure::initialize("Test App", obscure::version{1,0,0});
-
-
-
-
 	{
-		gfx_ctx_t app{};
-		global::windowRef() = app.window.get_window_ref();
-		obscure::imgui::ctx imgui_ctx{app};
-		object_3d model_3d = object_3d::load(app);
-
-
-		obscure::stopwatch<float> frame_timer{};
-		while (!app.window.should_close())
-		{
-			glfwPollEvents();
-			if (app.window.isKeyPressed(GLFW_KEY_ESCAPE) || MenuExit())
-			{
-				break;
-			}
-			{
-				auto frame = app.begin_frame();
-				{
-
-					auto extent = frame.get_extent();
-
-					float time = frame_timer.total_time().count();
-					glm::mat4 model = glm::identity<glm::mat4>(); //glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-					glm::mat4 proj = glm::perspective(glm::radians(60.0f), extent.width / (float) extent.height, 0.1f, 100.0f);
-					proj[1][1]*= -1;
-
-					glm::mat4 viewproj = proj * GetCameraTransform();
-
-					frame.draw_floor(viewproj);
-					frame.draw_texture_2d(viewproj, model, model_3d.vertex_buffer, model_3d.index_buffer, model_3d.color_texture);
-				}
-				drawMenuOverlay(frame.get_command_buffer());
-
-			}
-			app.submit_frame();
-			app.draw_frame();
-		}
+		app_t app{};
+		app.run();
 	}
 	obscure::free_instance();
 
