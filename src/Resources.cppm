@@ -26,14 +26,18 @@ export namespace resources
 
     std::string_view hole_building_mtl();
 
+    std::span<const char> ship_obj();
+
+    std::string_view ship_mtl();
+
 #pragma endregion
 
 #pragma region shaders
     enum class shader_name {
         floor_vertex,
         floor_fragment,
-        building_vertex,
-        building_fragment
+        object_vertex,
+        object_fragment
     };
 
     template<shader_name shader>
@@ -46,10 +50,10 @@ export namespace resources
     std::span<const uint32_t> get_data<shader_name::floor_fragment>();
 
     template<>
-    std::span<const uint32_t> get_data<shader_name::building_vertex>();
+    std::span<const uint32_t> get_data<shader_name::object_vertex>();
 
     template<>
-    std::span<const uint32_t> get_data<shader_name::building_fragment>();
+    std::span<const uint32_t> get_data<shader_name::object_fragment>();
 #pragma endregion
 }
 

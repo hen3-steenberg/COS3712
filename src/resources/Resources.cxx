@@ -65,6 +65,22 @@ constexpr const char hole_building_mtl_data[] = {
 std::string_view resources::hole_building_mtl() {
     return std::string_view{ hole_building_mtl_data };
 }
+
+constexpr const char ship_obj_data[] = {
+#embed "objects/ship.obj"
+};
+
+std::span<const char> resources::ship_obj() {
+    return std::span<const char>{ ship_obj_data };
+}
+
+constexpr const char ship_mtl_data[] = {
+#embed "objects/ship.mtl"
+};
+
+std::string_view resources::ship_mtl() {
+    return std::string_view{ ship_mtl_data };
+}
 #pragma endregion
 
 #pragma region shaders
@@ -106,24 +122,24 @@ std::span<const uint32_t> resources::get_data<shader_name::floor_fragment>() {
     return get_shader_data(floor_fragment_data);
 }
 
-constexpr const uint8_t building_vertex_data[] = {
-#embed "shaders/building.vert.spv"
+constexpr const uint8_t object_vertex_data[] = {
+#embed "shaders/object.vert.spv"
     , 0, 0, 0, 0
 };
 
 template<>
-std::span<const uint32_t> resources::get_data<shader_name::building_vertex>() {
-    return get_shader_data(building_vertex_data);
+std::span<const uint32_t> resources::get_data<shader_name::object_vertex>() {
+    return get_shader_data(object_vertex_data);
 }
 
-constexpr const uint8_t building_fragment_data[] = {
-#embed "shaders/building.frag.spv"
+constexpr const uint8_t object_fragment_data[] = {
+#embed "shaders/object.frag.spv"
     , 0, 0, 0, 0
 };
 
 template<>
-std::span<const uint32_t> resources::get_data<shader_name::building_fragment>() {
-    return get_shader_data(building_fragment_data);
+std::span<const uint32_t> resources::get_data<shader_name::object_fragment>() {
+    return get_shader_data(object_fragment_data);
 }
 
 #pragma endregion
