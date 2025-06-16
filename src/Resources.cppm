@@ -1,7 +1,7 @@
 module;
 #include <span>
-#include <string>
 #include <cstdint>
+#include <string_view>
 #include "stb/stb_image.h"
 export module Resources;
 export import obscure.vulkan.shader;
@@ -16,11 +16,15 @@ export namespace resources
 
 #pragma region objects
 
-    const std::string & viking_room_obj();
+    std::span<const char> viking_room_obj();
 
-    const std::string & portal_obj();
+    std::span<const char> portal_obj();
 
-    const std::string & portal_mtl();
+    std::string_view portal_mtl();
+
+    std::span<const char> hole_building_obj();
+
+    std::string_view hole_building_mtl();
 
 #pragma endregion
 

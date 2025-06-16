@@ -9,8 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory("obscure")
 add_subdirectory("shaders")
-
-
+add_subdirectory("3rd_party")
 
 add_executable(cos3712)
 
@@ -29,5 +28,6 @@ target_sources(cos3712
 )
 target_link_libraries(cos3712 PRIVATE obscure)
 target_link_libraries(cos3712 PRIVATE imgui)
+target_link_libraries(cos3712 PRIVATE rapidobj::rapidobj)
 add_dependencies(cos3712 custom_shaders)
 

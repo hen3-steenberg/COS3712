@@ -1,3 +1,6 @@
 [submodule "obscure"]
 	path = obscure
 	url = git@github.com:hen3-steenberg/obscure.git
+[submodule "3rd_party/rapidobj"]
+	path = 3rd_party/rapidobj
+	url = git@github.com:guybrush77/rapidobj.git

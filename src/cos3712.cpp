@@ -21,14 +21,24 @@ struct app_t {
 
 	gfx_ctx_t gfx_ctx;
 	obscure::imgui::ctx imgui_ctx;
-	BuildingObj portal;
+	BuildingObj inPortal;
+	BuildingObj outPortal;
+	BuildingObj Hole1;
+	BuildingObj Hole2;
 
 
 	app_t()
 		: gfx_ctx(),
 		imgui_ctx(gfx_ctx),
-		portal(BuildingObj::load_from_memory(gfx_ctx, resources::portal_obj(), resources::portal_mtl()))
+		inPortal(BuildingObj::load_from_memory(gfx_ctx, resources::portal_obj(), resources::portal_mtl())),
+		outPortal(BuildingObj::load_from_memory(gfx_ctx, resources::portal_obj(), resources::portal_mtl())),
+		Hole1(BuildingObj::load_from_memory(gfx_ctx, resources::hole_building_obj(), resources::hole_building_mtl())),
+		Hole2(BuildingObj::load_from_memory(gfx_ctx, resources::hole_building_obj(), resources::hole_building_mtl()))
 	{
+		inPortal.rotate_and_move(45.0f, glm::vec3{50.0f, 50.0f, 0.0f});
+		outPortal.rotate_and_move(90.0f, glm::vec3{-70.0f, -100.0f, 0.0f});
+		Hole1.rotate_and_move(15.0f, glm::vec3{20.0f, -50.0f, 0.0f});
+		Hole2.rotate_and_move(20.0f, glm::vec3{-20.0f, 100.0f, 0.0f});
 		global::windowRef() = gfx_ctx.window.get_window_ref();
 	}
 
@@ -42,15 +52,18 @@ struct app_t {
 		glm::mat4 viewproj = proj * GetCameraTransform();
 #pragma endregion
 
-#pragma region floor
+#pragma region buildings
 
-		frame.draw_floor(viewproj);
+		frame.draw_building(viewproj, inPortal);
+		frame.draw_building(viewproj, outPortal);
+		frame.draw_building(viewproj, Hole1);
+		frame.draw_building(viewproj, Hole2);
 
 #pragma endregion
 
-#pragma region buildings
+#pragma region floor
 
-		frame.draw_building(viewproj, portal);
+		frame.draw_floor(viewproj);
 
 #pragma endregion
 

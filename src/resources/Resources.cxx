@@ -1,8 +1,8 @@
 module;
 #include <span>
-#include <string>
 #include <cstdint>
 #include <bit>
+#include <string_view>
 #include "stb/stb_image.h"
 module Resources;
 using namespace resources;
@@ -29,28 +29,41 @@ constexpr const char viking_room_obj_data[] = {
 };
 
 
-const std::string & resources::viking_room_obj()
+std::span<const char> resources::viking_room_obj()
 {
-    static const std::string viking_room_obj_str{ viking_room_obj_data };
-    return viking_room_obj_str;
+    return std::span<const char>{ viking_room_obj_data };
 }
 
 constexpr const char portal_building_obj_data[] = {
 #embed "objects/portal_building.obj"
 };
 
-const std::string & resources::portal_obj() {
-    static const std::string portal_building_obj_str{ portal_building_obj_data };
-    return portal_building_obj_str;
+std::span<const char> resources::portal_obj() {
+    return std::span<const char> { portal_building_obj_data };
 }
 
 constexpr const char portal_building_mtl_data[] = {
 #embed "objects/portal_building.mtl"
 };
 
-const std::string & resources::portal_mtl() {
-    static const std::string portal_building_mtl_str{ portal_building_mtl_data };
-    return portal_building_mtl_str;
+std::string_view resources::portal_mtl() {
+    return std::string_view{ portal_building_mtl_data };
+}
+
+constexpr const char hole_building_obj_data[] = {
+#embed "objects/hole_building.obj"
+};
+
+std::span<const char> resources::hole_building_obj() {
+    return std::span<const char>{ hole_building_obj_data };
+}
+
+constexpr const char hole_building_mtl_data[] = {
+#embed "objects/hole_building.mtl"
+};
+
+std::string_view resources::hole_building_mtl() {
+    return std::string_view{ hole_building_mtl_data };
 }
 #pragma endregion
 

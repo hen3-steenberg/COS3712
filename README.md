@@ -44,6 +44,9 @@ if that is not preferred or when working on windows, these packages can be insta
 
 Other C++ package managers can be used as long as the `CMAKE_TOOLCHAIN_FILE` for that package manager is specified manually.
 
+### 1.3 rapidobj
+This library can interpret `.obj` file content. It is included in `3rd_party/rapidobj`. 
+
 ## 2. Build
 ### 2.1 List the presets for your system
 ```shell

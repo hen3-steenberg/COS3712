@@ -1,11 +1,17 @@
 module;
 #include <vulkan/vulkan.hpp>
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
-#include <string>
+#include <glm/gtc/matrix_transform.hpp>
+#include <string_view>
+#include <spanstream>
 
 #include <glm/ext/matrix_transform.hpp>
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
+
+#include "rapidobj/rapidobj.hpp"
 export module Building;
 
 export import obscure.vulkan.shader;
@@ -25,27 +31,26 @@ export struct BuildingObj {
     obscure::vulkan::index_buffer<uint32_t> index_buffer;
 
     template<typename Ctx>
-    static BuildingObj load_from_memory(Ctx const& ctx, std::string const& obj, std::string const& mtl) {
-        tinyobj::ObjReaderConfig reader_config;
-        reader_config.triangulate = true;
-        tinyobj::ObjReader reader;
-        reader.ParseFromString(obj, mtl, reader_config);
+    static BuildingObj load_from_memory(Ctx const& ctx, std::span<const char> obj, std::string_view mtl) {
+        std::ispanstream ss{obj};
+        auto Parsed_obj = rapidobj::detail::ParseStream(ss, rapidobj::MaterialLibrary::String(mtl));
+        //rapidobj::Triangulate(Parsed_obj);
 
         std::vector<vertex_t> vertices;
         std::vector<uint32_t> indices;
 
-        for (auto & shape : reader.GetShapes()) {
+        for (auto & shape : Parsed_obj.shapes) {
             for (auto indexes : shape.mesh.indices) {
                 vertices.emplace_back(vertex_t{
                     .position = {
-                        reader.GetAttrib().vertices[3 * indexes.vertex_index + 0],
-                        reader.GetAttrib().vertices[3 * indexes.vertex_index + 1],
-                        reader.GetAttrib().vertices[3 * indexes.vertex_index + 2]
+                        Parsed_obj.attributes.positions[3 * indexes.position_index + 0],
+                        Parsed_obj.attributes.positions[3 * indexes.position_index + 1],
+                        Parsed_obj.attributes.positions[3 * indexes.position_index + 2]
                     },
                     .normal = {
-                        reader.GetAttrib().normals[3 * indexes.normal_index + 0],
-                        reader.GetAttrib().normals[3 * indexes.normal_index + 1],
-                        reader.GetAttrib().normals[3 * indexes.normal_index + 2]
+                        Parsed_obj.attributes.normals[3 * indexes.normal_index + 0],
+                        Parsed_obj.attributes.normals[3 * indexes.normal_index + 1],
+                        Parsed_obj.attributes.normals[3 * indexes.normal_index + 2]
                     }
                 });
 
@@ -58,6 +63,11 @@ export struct BuildingObj {
             .vertex_buffer = ctx.template init_vertex_buffer<vertex_t>(vertices),
             .index_buffer = ctx.template init_index_buffer<uint32_t>(indices)
         };
+    }
+
+    void rotate_and_move(float angle, glm::vec3 offset) {
+        model = glm::rotate(model, glm::radians(angle), glm::vec3{0.0f, 0.0f, 1.0f});
+        model = glm::translate(model, offset);
     }
 };
 

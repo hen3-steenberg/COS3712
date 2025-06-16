@@ -36,7 +36,7 @@ export namespace global
     }
 
     glm::vec3 & cameraPosition() {
-        static glm::vec3 camera_position {0.0f, 0.0f, 2.0f};
+        static glm::vec3 camera_position {0.0f, 0.0f, 20.0f};
         return camera_position;
     }
 }
