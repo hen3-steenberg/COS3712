@@ -7,9 +7,12 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -flto")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(OBSCURE_TEST OFF)
+
+add_subdirectory("3rd_party")
 add_subdirectory("obscure")
 add_subdirectory("shaders")
-add_subdirectory("3rd_party")
+
 
 add_executable(cos3712)
 

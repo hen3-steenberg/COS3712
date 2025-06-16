@@ -1,5 +1,5 @@
-# COS3712
-This uses a rendering engine based on Vulkan that I wrote myself. Called obscure (Because I had no idea what I was doing).
+# Getting Started
+This section explains how to set up your environment and build the project.
 
 ## 1. Dependencies
 To make the build process more repeatable most dependencies are included in the project as submodules (The files are in this project).
