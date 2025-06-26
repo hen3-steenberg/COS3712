@@ -20,6 +20,7 @@ import ObjectPipe;
 import Building;
 import Vehicle;
 import Animation;
+import Drone;
 
 using namespace std::literals;
 
@@ -39,6 +40,7 @@ struct app_t {
 	Building hole;
 	Vehicle ship;
 	ship_animation_t ship_animation;
+	DroneList drones;
 
 
 	app_t()
@@ -47,12 +49,21 @@ struct app_t {
 		portal(gfx_ctx, resources::portal_obj(), resources::portal_mtl()),
 		hole(gfx_ctx, resources::hole_building_obj(), resources::hole_building_mtl()),
 		ship(gfx_ctx, resources::ship_obj(), resources::ship_mtl()),
-		ship_animation(build_ship_animation())
+		ship_animation(build_ship_animation()),
+		drones(gfx_ctx)
 	{
 		portal.add_instance(45.0f, glm::vec3{50.0f, 50.0f, 0.0f});
 		portal.add_instance(90.0f, glm::vec3{-70.0f, -100.0f, 0.0f});
 		hole.add_instance(15.0f, glm::vec3{20.0f, -50.0f, 0.0f});
 		hole.add_instance(20.0f, glm::vec3{-20.0f, 100.0f, 0.0f});
+
+
+		drones.add_drone(glm::vec3{20.0f, 20.0f, 100.0f});
+		drones.add_drone(glm::vec3{20.0f, -20.0f, 100.0f});
+		drones.add_drone(glm::vec3{-20.0f, 20.0f, 100.0f});
+		drones.add_drone(glm::vec3{-20.0f, -20.0f, 100.0f});
+
+
 		global::windowRef() = gfx_ctx.window.get_window_ref();
 	}
 
@@ -64,6 +75,14 @@ struct app_t {
 		proj[1][1]*= -1;
 
 		glm::mat4 viewproj = proj * GetCameraTransform();
+#pragma endregion
+
+#pragma region drones
+
+		drones.animate();
+
+		frame.draw_objects(viewproj, drones.locations, drones.model);
+
 #pragma endregion
 
 #pragma region vehicles

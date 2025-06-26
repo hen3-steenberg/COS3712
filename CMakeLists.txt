@@ -31,6 +31,7 @@ target_sources(cos3712
         "src/Building.cppm"
         "src/Vehicle.cppm"
         "src/Animation.cppm"
+        "src/Drone.cppm"
 )
 target_link_libraries(cos3712 PRIVATE obscure)
 target_link_libraries(cos3712 PRIVATE imgui)

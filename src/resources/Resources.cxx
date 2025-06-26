@@ -81,6 +81,23 @@ constexpr const char ship_mtl_data[] = {
 std::string_view resources::ship_mtl() {
     return std::string_view{ ship_mtl_data };
 }
+
+
+constexpr const char drone_obj_data[] = {
+#embed "objects/drone.obj"
+};
+
+std::span<const char> resources::drone_obj() {
+    return std::span<const char>{ drone_obj_data };
+}
+
+constexpr const char drone_mtl_data[] = {
+#embed "objects/drone.mtl"
+};
+
+std::string_view resources::drone_mtl() {
+    return std::string_view{ drone_mtl_data };
+}
 #pragma endregion
 
 #pragma region shaders

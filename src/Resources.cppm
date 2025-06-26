@@ -30,6 +30,10 @@ export namespace resources
 
     std::string_view ship_mtl();
 
+    std::span<const char> drone_obj();
+
+    std::string_view drone_mtl();
+
 #pragma endregion
 
 #pragma region shaders
