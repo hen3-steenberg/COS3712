@@ -6,6 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <vulkan/vulkan.hpp>
 #include <chrono>
+#include <print>
 
 import obscure.vulkan;
 import obscure.imgui;
@@ -22,16 +23,22 @@ import Animation;
 
 using namespace std::literals;
 
+constexpr auto build_ship_animation() {
+	auto sequence = (Rotate{glm::vec3 {0.0f, 0.0f, 15.0f}} & 12s) | (Identity{} & 15s);
+	return Move{glm::vec3 {0.0f, 10.0f, 0.0f}} & Loop{glm::translate(glm::identity<glm::mat4>(), glm::vec3{0.0f, 0.0f, 20.0f}), sequence | sequence};
+}
+
 struct app_t {
 	using gfx_ctx_t = obscure::graphics_context<ObjectPipe, Floor>;
 	using frame_t = gfx_ctx_t::command_session_t;
+	using ship_animation_t = decltype(build_ship_animation());
 
 	gfx_ctx_t gfx_ctx;
 	obscure::imgui::ctx imgui_ctx;
 	Building portal;
 	Building hole;
 	Vehicle ship;
-	Animation ship_animation;
+	ship_animation_t ship_animation;
 
 
 	app_t()
@@ -40,7 +47,7 @@ struct app_t {
 		portal(gfx_ctx, resources::portal_obj(), resources::portal_mtl()),
 		hole(gfx_ctx, resources::hole_building_obj(), resources::hole_building_mtl()),
 		ship(gfx_ctx, resources::ship_obj(), resources::ship_mtl()),
-		ship_animation(translate(glm::vec3{0.0f, 1000.f, 50.f}, 1min))
+		ship_animation(build_ship_animation())
 	{
 		portal.add_instance(45.0f, glm::vec3{50.0f, 50.0f, 0.0f});
 		portal.add_instance(90.0f, glm::vec3{-70.0f, -100.0f, 0.0f});
@@ -61,7 +68,7 @@ struct app_t {
 
 #pragma region vehicles
 
-		ship.transform = ship_animation(ship.transform);
+		ship.transform = evaluate_animations(ship.transform, ship_animation);
 		frame.draw_object(viewproj, ship.transform, *ship.model);
 
 #pragma endregion
@@ -104,6 +111,7 @@ struct app_t {
 
 int main()
 {
+	std::println("The size of the CPU resources is {} bytes.", sizeof(app_t));
 	obscure::initialize("Test App", obscure::version{1,0,0});
 	{
 		app_t app{};
