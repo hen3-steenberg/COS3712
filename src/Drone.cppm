@@ -1,5 +1,6 @@
 module;
 #include <vector>
+#include <ranges>
 
 #define GLM_ALIGNED_TYPEDEF
 #define GLM_FORCE_RADIANS
@@ -11,6 +12,7 @@ export module Drone;
 import ObjectPipe;
 import Animation;
 import Resources;
+import GlobalState;
 
 export struct DroneList {
     ObjectModel model;
@@ -26,8 +28,15 @@ export struct DroneList {
 
     void animate() {
         auto update = evaluate_animations(glm::identity<glm::mat4>(), rotation);
-        for (auto & transform : locations) {
-            transform *= update;
+        if (global::AnimateFirst2Drones()) {
+            for (auto & transform : locations) {
+                transform *= update;
+            }
+        }
+        else {
+            for (auto & transform : locations | std::ranges::views::drop(2)) {
+                transform *= update;
+            }
         }
     }
 

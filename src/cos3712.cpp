@@ -59,9 +59,9 @@ struct app_t {
 
 
 		drones.add_drone(glm::vec3{20.0f, 20.0f, 100.0f});
-		drones.add_drone(glm::vec3{20.0f, -20.0f, 100.0f});
-		drones.add_drone(glm::vec3{-20.0f, 20.0f, 100.0f});
 		drones.add_drone(glm::vec3{-20.0f, -20.0f, 100.0f});
+		drones.add_drone(glm::vec3{-20.0f, 20.0f, 100.0f});
+		drones.add_drone(glm::vec3{20.0f, -20.0f, 100.0f});
 
 
 		global::windowRef() = gfx_ctx.window.get_window_ref();

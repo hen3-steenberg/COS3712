@@ -28,6 +28,8 @@ constexpr const char controlsText[] =
 R"(Controls   :
     Exit            -> [ESC]
     Switch Camera   -> [TAB]
+Vehicle Controls:
+    Toggle Drones   -> R
 Camera Controls:
     Forward     -> W
     Backward    -> S
@@ -113,6 +115,10 @@ void drawMenu()
             ImGui::MenuItem("Show Framerate", "", &showFramerate);
             ImGui::MenuItem("Show Camera Mode", "", &show_camera_mode);
             ImGui::MenuItem("Show Controls", "", &showControls);
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Vehicles")) {
+            ImGui::MenuItem("Toggle Drones", "R", &global::AnimateFirst2Drones());
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Edit"))

@@ -1,4 +1,5 @@
 module;
+#include <functional>
 #include <GLFW/glfw3.h>
 #define GLM_ALIGNED_TYPEDEF
 #define GLM_FORCE_RADIANS
@@ -41,5 +42,32 @@ export namespace global
     glm::vec3 & cameraPosition() {
         static glm::vec3 camera_position {0.0f, 0.0f, 200.0f};
         return camera_position;
+    }
+
+    template<int KEY>
+    void toggleKey(std::function<void()> toggle_action) {
+        //debounce flag
+        static bool is_key_released = true;
+        if (windowRef().isKeyPressed(KEY)) {
+            if (is_key_released) {
+                // toggle callback
+                toggle_action();
+                is_key_released = false;
+            }
+        }
+        else {
+            //debounce once key is released.
+            is_key_released = true;
+        }
+    }
+
+    bool & AnimateFirst2Drones() {
+        static bool animate_first_2_dones = true;
+
+        toggleKey<GLFW_KEY_R>([]() {
+            animate_first_2_dones = !animate_first_2_dones;
+        });
+
+        return animate_first_2_dones;
     }
 }

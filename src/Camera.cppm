@@ -13,20 +13,7 @@ import obscure.utils.stopwatch;
 import GlobalState;
 
 void detectCameraMode() {
-    auto window = global::windowRef();
-    //debounce flag
-    static bool is_tab_released = true;
-    if (window.isKeyPressed(GLFW_KEY_TAB)) {
-        if (is_tab_released) {
-            // toggle mouse control on and off.
-            global::toggleCameraMode();
-            is_tab_released = false;
-        }
-    }
-    else {
-        //debounce once key is released.
-        is_tab_released = true;
-    }
+    global::toggleKey<GLFW_KEY_TAB>(global::toggleCameraMode);
 }
 
 glm::vec3 updateCameraPosition(glm::vec3 orientation) noexcept
