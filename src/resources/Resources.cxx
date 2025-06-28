@@ -98,6 +98,54 @@ constexpr const char drone_mtl_data[] = {
 std::string_view resources::drone_mtl() {
     return std::string_view{ drone_mtl_data };
 }
+
+constexpr const char building1_obj_data[] = {
+#embed "objects/Building1.obj"
+};
+
+std::span<const char> resources::building1_obj() {
+    return std::span<const char>{ building1_obj_data };
+}
+
+constexpr const char building1_mtl_data[] = {
+#embed "objects/Building1.mtl"
+};
+
+std::string_view resources::building1_mtl() {
+    return std::string_view{ building1_mtl_data };
+}
+
+constexpr const char building2_obj_data[] = {
+#embed "objects/Building2.obj"
+};
+
+std::span<const char> resources::building2_obj() {
+    return std::span<const char>{ building2_obj_data };
+}
+
+constexpr const char building2_mtl_data[] = {
+#embed "objects/Building2.mtl"
+};
+
+std::string_view resources::building2_mtl() {
+    return std::string_view{ building2_mtl_data };
+}
+
+constexpr const char building3_obj_data[] = {
+#embed "objects/Building3.obj"
+};
+
+std::span<const char> resources::building3_obj() {
+    return std::span<const char>{ building3_obj_data };
+}
+
+constexpr const char building3_mtl_data[] = {
+#embed "objects/Building3.mtl"
+};
+
+std::string_view resources::building3_mtl() {
+    return std::string_view{ building3_mtl_data };
+}
 #pragma endregion
 
 #pragma region shaders

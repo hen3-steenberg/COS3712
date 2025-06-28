@@ -34,6 +34,18 @@ export namespace resources
 
     std::string_view drone_mtl();
 
+    std::span<const char> building1_obj();
+
+    std::string_view building1_mtl();
+
+    std::span<const char> building2_obj();
+
+    std::string_view building2_mtl();
+
+    std::span<const char> building3_obj();
+
+    std::string_view building3_mtl();
+
 #pragma endregion
 
 #pragma region shaders
