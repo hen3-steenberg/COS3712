@@ -24,15 +24,68 @@ import Drone;
 
 using namespace std::literals;
 
-constexpr auto build_ship_animation() {
+constexpr auto build_ship1_animation() {
 	auto sequence = (Rotate{glm::vec3 {0.0f, 0.0f, 15.0f}} & 12s) | (Identity{} & 15s);
-	return Move{glm::vec3 {0.0f, 10.0f, 0.0f}} & Loop{glm::translate(glm::identity<glm::mat4>(), glm::vec3{0.0f, 0.0f, 20.0f}), sequence | sequence};
+	return Move{glm::vec3 {10.0f, 0.0f, 0.0f}} & Loop{glm::translate(glm::identity<glm::mat4>(), glm::vec3{75.0f, -38.2f, 30.0f}), sequence | sequence};
+}
+
+constexpr auto build_ship2_animation() {
+	glm::mat4 start =
+		glm::rotate(
+			glm::translate(
+				glm::identity<glm::mat4>(),
+				glm::vec3{-75.0f, 38.2f, 30.0f}
+			),
+			glm::radians(180.0f), glm::vec3{0.0f, 0.0f, 1.0f}
+		);
+	auto sequence = (Rotate{glm::vec3 {0.0f, 0.0f, 15.0f}} & 12s) | (Identity{} & 10s) | (Identity{} & 5s);
+	return Move{glm::vec3 {10.0f, 0.0f, 0.0f}} & Loop{start, sequence | sequence};
+}
+
+constexpr auto build_ship3_animation() {
+	glm::mat4 start =
+			glm::translate(
+				glm::identity<glm::mat4>(),
+				glm::vec3{-75.0f, -38.2f, 30.0f}
+			);
+	auto sequence = (Identity{} & 15s) | (Rotate{glm::vec3 {0.0f, 0.0f, 15.0f}} & 12s);
+	return Move{glm::vec3 {10.0f, 0.0f, 0.0f}} & Loop{start, sequence | sequence};
+}
+
+constexpr auto build_ship4_animation() {
+	glm::mat4 start =
+	glm::rotate(
+		glm::translate(
+			glm::identity<glm::mat4>(),
+			glm::vec3{75.0f, 38.2f, 30.0f}
+		),
+		glm::radians(180.0f), glm::vec3{0.0f, 0.0f, 1.0f}
+	);
+	auto sequence = (Identity{} & 10s) | (Identity{} & 5s) | (Rotate{glm::vec3 {0.0f, 0.0f, 15.0f}} & 12s);
+	return Move{glm::vec3 {10.0f, 0.0f, 0.0f}} & Loop{start, sequence | sequence};
+}
+
+constexpr auto build_ship5_animation() {
+	glm::mat4 start =
+	glm::rotate(
+		glm::translate(
+			glm::identity<glm::mat4>(),
+			glm::vec3{50.0f, 50.2f, 3.0f}
+		),
+		glm::radians(225.0f), glm::vec3{0.0f, 0.0f, 1.0f}
+	);
+	auto sequence = (Identity{} & 1s) | (Move{glm::vec3{0.0f, 0.0f, 2.2f}} & 2s) | (Identity{} & 12400ms) | (Rotate{glm::vec3 {0.0f, 0.0f, 15.0f}} & 3s) | (Identity{} & 1400ms);
+	return Move{glm::vec3 {10.0f, 0.0f, 0.0f}} & Loop{start, sequence};
 }
 
 struct app_t {
 	using gfx_ctx_t = obscure::graphics_context<ObjectPipe, Floor>;
 	using frame_t = gfx_ctx_t::command_session_t;
-	using ship_animation_t = decltype(build_ship_animation());
+	using ship1_animation_t = decltype(build_ship1_animation());
+	using ship2_animation_t = decltype(build_ship2_animation());
+	using ship3_animation_t = decltype(build_ship3_animation());
+	using ship4_animation_t = decltype(build_ship4_animation());
+	using ship5_animation_t = decltype(build_ship5_animation());
 
 	gfx_ctx_t gfx_ctx;
 	obscure::imgui::ctx imgui_ctx;
@@ -41,8 +94,16 @@ struct app_t {
 	Building building1;
 	Building building2;
 	Building building3;
-	Vehicle ship;
-	ship_animation_t ship_animation;
+	Vehicle ship1;
+	ship1_animation_t ship1_animation;
+	Vehicle ship2;
+	ship2_animation_t ship2_animation;
+	Vehicle ship3;
+	ship3_animation_t ship3_animation;
+	Vehicle ship4;
+	ship4_animation_t ship4_animation;
+	Vehicle ship5;
+	ship5_animation_t ship5_animation;
 	DroneList drones;
 
 
@@ -54,21 +115,32 @@ struct app_t {
 		building1(gfx_ctx, resources::building1_obj(), resources::building1_mtl()),
 		building2(gfx_ctx, resources::building2_obj(), resources::building2_mtl()),
 		building3(gfx_ctx, resources::building3_obj(), resources::building3_mtl()),
-		ship(gfx_ctx, resources::ship_obj(), resources::ship_mtl()),
-		ship_animation(build_ship_animation()),
+		ship1(gfx_ctx, resources::ship_obj(), resources::ship_mtl()),
+		ship1_animation(build_ship1_animation()),
+		ship2(ship1),
+		ship2_animation(build_ship2_animation()),
+		ship3(ship1),
+		ship3_animation(build_ship3_animation()),
+		ship4(ship1),
+		ship4_animation(build_ship4_animation()),
+		ship5(ship1),
+		ship5_animation(build_ship5_animation()),
 		drones(gfx_ctx)
 	{
-		portal.add_instance(45.0f, glm::vec3{50.0f, 50.0f, 0.0f});
-		portal.add_instance(90.0f, glm::vec3{-70.0f, -100.0f, 0.0f});
+		portal.add_instance(225.0f, glm::vec3{50.0f, 50.0f, 0.0f});
+		portal.add_instance(90.0f, glm::vec3{-70.0f, -100.0f, 5.0f});
 
-		hole.add_instance(15.0f, glm::vec3{20.0f, -50.0f, 0.0f});
-		hole.add_instance(20.0f, glm::vec3{-20.0f, 100.0f, 0.0f});
+		hole.add_instance(0.0f, glm::vec3{75.0f, -38.2f, 0.0f});
+		hole.add_instance(0.0f, glm::vec3{-75.0f, 38.3f, 0.0f});
 
-		building1.add_instance(0.0f, glm::vec3{0.0f, 0.0f, 0.0f});
+		building2.add_instance(0.0f, glm::vec3{-10.0f, 30.0f, 5.0f});
+		building2.add_instance(180.0f, glm::vec3{10.0f, 40.0f, 1.0f});
 
-		building2.add_instance(0.0f, glm::vec3{0.0f, 50.0f, 0.0f});
+		building1.add_instance(0.0f, glm::vec3{-50.0f, 0.0f, 0.0f});
 
-		building3.add_instance(0.0f, glm::vec3{50.0f, 0.0f, 0.0f});
+
+
+		building3.add_instance(0.0f, glm::vec3{50.0f, 0.0f, 2.0f});
 
 
 		drones.add_drone(glm::vec3{20.0f, 20.0f, 100.0f});
@@ -100,8 +172,19 @@ struct app_t {
 
 #pragma region vehicles
 
-		ship.transform = evaluate_animations(ship.transform, ship_animation);
-		frame.draw_object(viewproj, ship.transform, *ship.model);
+		ship1.transform = evaluate_animations(ship1.transform, ship1_animation);
+		ship2.transform = evaluate_animations(ship2.transform, ship2_animation);
+		ship3.transform = evaluate_animations(ship3.transform, ship3_animation);
+		ship4.transform = evaluate_animations(ship4.transform, ship4_animation);
+		ship5.transform = evaluate_animations(ship5.transform, ship5_animation);
+		frame.draw_objects(viewproj,
+			{
+				ship1.transform,
+				ship2.transform,
+				ship3.transform,
+				ship4.transform,
+				ship5.transform
+			}, *ship1.model);
 
 #pragma endregion
 

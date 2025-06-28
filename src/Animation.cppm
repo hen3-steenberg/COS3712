@@ -305,6 +305,13 @@ Sequence<TA1, TA2...> operator|(Duration<TA1> a1, Sequence<TA2...> a2) noexcept 
 }
 
 export template<animation_c TA1, animation_c ... TA2>
+Sequence<TA2..., TA1> operator|(Sequence<TA2...> s, Duration<TA1> a2) noexcept {
+    return std::apply([a2](Duration<TA2> ... a1) {
+        return Sequence<TA2..., TA1>{a1..., a2};
+    }, s.animations);
+}
+
+export template<animation_c TA1, animation_c ... TA2>
     requires (is_sequence<TA1>())
 auto operator|(TA1 a1, Sequence<TA2...> a2) noexcept {
     return TA1::combine(a1, a2);

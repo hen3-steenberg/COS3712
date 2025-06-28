@@ -21,7 +21,8 @@ export struct Building {
     {}
 
     void add_instance(float angle, glm::vec3 offset) {
-        glm::mat4 transform = glm::rotate(glm::identity<glm::mat4>(), glm::radians(angle), glm::vec3{0.0f, 0.0f, 1.0f});
-        locations.emplace_back(glm::translate(transform, offset));
+        glm::mat4 translate = glm::translate(glm::identity<glm::mat4>(), offset);
+        glm::mat4 transform = glm::rotate(translate, glm::radians(angle), glm::vec3{0.0f, 0.0f, 1.0f});
+        locations.emplace_back(transform);
     }
 };
