@@ -29,7 +29,8 @@ R"(Controls   :
     Exit            -> [ESC]
     Switch Camera   -> [TAB]
 Vehicle Controls:
-    Toggle Drones   -> R
+    Animate 2 Drones    -> R
+    Animate Vehicles    -> T
 Camera Controls:
     Forward     -> W
     Backward    -> S
@@ -119,6 +120,7 @@ void drawMenu()
         }
         if (ImGui::BeginMenu("Vehicles")) {
             ImGui::MenuItem("Toggle Drones", "R", &global::AnimateFirst2Drones());
+            ImGui::MenuItem("Toggle Cars", "T", &global::AnimateCars());
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Edit"))

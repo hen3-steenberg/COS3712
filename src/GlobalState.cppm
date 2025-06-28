@@ -70,4 +70,12 @@ export namespace global
 
         return animate_first_2_dones;
     }
+
+    bool & AnimateCars() {
+        static bool animate_cars = true;
+        toggleKey<GLFW_KEY_T>([]() {
+            animate_cars = !animate_cars;
+        });
+        return animate_cars;
+    }
 }

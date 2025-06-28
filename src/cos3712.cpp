@@ -38,7 +38,7 @@ constexpr auto build_ship2_animation() {
 			),
 			glm::radians(180.0f), glm::vec3{0.0f, 0.0f, 1.0f}
 		);
-	auto sequence = (Rotate{glm::vec3 {0.0f, 0.0f, 15.0f}} & 12s) | (Identity{} & 10s) | (Identity{} & 5s);
+	auto sequence = (Rotate{glm::vec3 {0.0f, 0.0f, 15.0f}} & 12s) | (Identity{} & 15s);
 	return Move{glm::vec3 {10.0f, 0.0f, 0.0f}} & Loop{start, sequence | sequence};
 }
 
@@ -61,7 +61,7 @@ constexpr auto build_ship4_animation() {
 		),
 		glm::radians(180.0f), glm::vec3{0.0f, 0.0f, 1.0f}
 	);
-	auto sequence = (Identity{} & 10s) | (Identity{} & 5s) | (Rotate{glm::vec3 {0.0f, 0.0f, 15.0f}} & 12s);
+	auto sequence = (Identity{} & 15s) | (Rotate{glm::vec3 {0.0f, 0.0f, 15.0f}} & 12s);
 	return Move{glm::vec3 {10.0f, 0.0f, 0.0f}} & Loop{start, sequence | sequence};
 }
 
@@ -153,6 +153,11 @@ struct app_t {
 	}
 
 	void loop(frame_t frame) {
+
+		static obscure::stopwatch<float> timer{};
+		auto frame_time = timer.lap_time();
+		auto total_time = timer.total_time();
+		static  obscure::stopwatch<float>::duration_t vehicle_stop_time {0.0f};
 #pragma region perspective
 		auto extent = frame.get_extent();
 
@@ -172,11 +177,17 @@ struct app_t {
 
 #pragma region vehicles
 
-		ship1.transform = evaluate_animations(ship1.transform, ship1_animation);
-		ship2.transform = evaluate_animations(ship2.transform, ship2_animation);
-		ship3.transform = evaluate_animations(ship3.transform, ship3_animation);
-		ship4.transform = evaluate_animations(ship4.transform, ship4_animation);
-		ship5.transform = evaluate_animations(ship5.transform, ship5_animation);
+		if (global::AnimateCars()) {
+			ship1.transform = evaluate_animations(ship1.transform, total_time - vehicle_stop_time, frame_time, ship1_animation);
+			ship2.transform = evaluate_animations(ship2.transform, total_time - vehicle_stop_time, frame_time, ship2_animation);
+			ship3.transform = evaluate_animations(ship3.transform, total_time - vehicle_stop_time, frame_time, ship3_animation);
+			ship4.transform = evaluate_animations(ship4.transform, total_time - vehicle_stop_time, frame_time, ship4_animation);
+			ship5.transform = evaluate_animations(ship5.transform, total_time - vehicle_stop_time, frame_time, ship5_animation);
+		}
+		else {
+			vehicle_stop_time += frame_time;
+		}
+
 		frame.draw_objects(viewproj,
 			{
 				ship1.transform,
