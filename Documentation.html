@@ -1,0 +1,385 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-glsl.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-none.min.js"></script><style>
+        .article {
+            position: relative;
+            padding-bottom: 24px;
+        }
+        
+
+        .code-block {
+            overflow: hidden;
+            position: relative;
+            padding: 0;
+            border-radius: 8px;
+            font-variant-ligatures: none;
+            background-color: rgba(25, 25, 28, .05);
+            word-break: break-all;
+        }
+        
+
+        .detached {
+            margin-block-start: 0;
+            margin-block-end: 0;
+            margin-bottom: 8px;
+        }
+        
+
+        .header-row {
+            background: #e6e6e6;
+        }
+        
+
+        .inline-code {
+            border-radius: 4px;
+            display: inline;
+            padding: 2px 1px;
+            font-family: JetBrains Sans,monospace;
+            background: #e6e6e6;
+        }
+        
+
+        .list {
+            list-style-type: disc;
+            padding-left: 0;
+            margin-left: 15px;
+        }
+        
+
+        .list-decimal {
+            list-style-type: decimal;
+        }
+        
+
+        .list-item {
+            margin-top: 6px;
+            margin-bottom: 6px;
+            margin-left: 4px;
+        }
+        
+
+        .main-title {
+            padding-bottom: 24px;
+            margin-top: 0;
+            font-size: 40px;
+            margin-block-start: 0;
+            margin-block-end: 0;
+        }
+        
+
+        .prism {
+            page-break-inside: avoid;
+        }
+        
+        /* PrismJS 1.29.0
+https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+abap+abnf+actionscript+ada+agda+al+antlr4+apacheconf+apex+apl+applescript+aql+arduino+arff+armasm+arturo+asciidoc+aspnet+asm6502+asmatmel+autohotkey+autoit+avisynth+avro-idl+awk+bash+basic+batch+bbcode+bbj+bicep+birb+bison+bnf+bqn+brainfuck+brightscript+bro+bsl+c+csharp+cpp+cfscript+chaiscript+cil+cilkc+cilkcpp+clojure+cmake+cobol+coffeescript+concurnas+csp+cooklang+coq+crystal+css-extras+csv+cue+cypher+d+dart+dataweave+dax+dhall+diff+django+dns-zone-file+docker+dot+ebnf+editorconfig+eiffel+ejs+elixir+elm+etlua+erb+erlang+excel-formula+fsharp+factor+false+firestore-security-rules+flow+fortran+ftl+gml+gap+gcode+gdscript+gedcom+gettext+gherkin+git+glsl+gn+linker-script+go+go-module+gradle+graphql+groovy+haml+handlebars+haskell+haxe+hcl+hlsl+hoon+http+hpkp+hsts+ichigojam+icon+icu-message-format+idris+ignore+inform7+ini+io+j+java+javadoc+javadoclike+javastacktrace+jexl+jolie+jq+jsdoc+js-extras+json+json5+jsonp+jsstacktrace+js-templates+julia+keepalived+keyman+kotlin+kumir+kusto+latex+latte+less+lilypond+liquid+lisp+livescript+llvm+log+lolcode+lua+magma+makefile+markdown+markup-templating+mata+matlab+maxscript+mel+mermaid+metafont+mizar+mongodb+monkey+moonscript+n1ql+n4js+nand2tetris-hdl+naniscript+nasm+neon+nevod+nginx+nim+nix+nsis+objectivec+ocaml+odin+opencl+openqasm+oz+parigp+parser+pascal+pascaligo+psl+pcaxis+peoplecode+perl+php+phpdoc+php-extras+plant-uml+plsql+powerquery+powershell+processing+prolog+promql+properties+protobuf+pug+puppet+pure+purebasic+purescript+python+qsharp+q+qml+qore+r+racket+cshtml+jsx+tsx+reason+regex+rego+renpy+rescript+rest+rip+roboconf+robotframework+ruby+rust+sas+sass+scss+scala+scheme+shell-session+smali+smalltalk+smarty+sml+solidity+solution-file+soy+sparql+splunk-spl+sqf+sql+squirrel+stan+stata+iecst+stylus+supercollider+swift+systemd+t4-templating+t4-cs+t4-vb+tap+tcl+tt2+textile+toml+tremor+turtle+twig+typescript+typoscript+unrealscript+uorazor+uri+v+vala+vbnet+velocity+verilog+vhdl+vim+visual-basic+warpscript+wasm+web-idl+wgsl+wiki+wolfram+wren+xeora+xml-doc+xojo+xquery+yaml+yang+zig&plugins=highlight-keywords */
+code[class*=language-],pre[class*=language-]{color:#000;background:0 0;text-shadow:0 1px #fff;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre-wrap;word-spacing:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}code[class*=language-] ::-moz-selection,code[class*=language-]::-moz-selection,pre[class*=language-] ::-moz-selection,pre[class*=language-]::-moz-selection{text-shadow:none;background:#b3d4fc}code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection{text-shadow:none;background:#b3d4fc}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}pre[class*=language-]{padding:16px;margin:0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#f5f2f0}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#708090}.token.punctuation{color:#999}.token.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#905}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#690}.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url{color:#9a6e3a;background:hsla(0,0%,100%,.5)}.token.atrule,.token.attr-value,.token.keyword{color:#07a}.token.class-name,.token.function{color:#dd4a68}.token.important,.token.regex,.token.variable{color:#e90}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}
+
+        
+
+        :root {
+            width: 95%;
+            max-width: 95vw;
+            padding: 0 0 0 30px;
+        }
+        
+        body {
+            font-family: JetBrains Sans,serif;
+        }
+        
+        a {
+            overflow-wrap: anywhere;
+            width: 100vw;
+        }
+        
+        
+        @font-face {
+            font-family: JetBrains Sans;
+            src: url(https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-Light.woff2) format("woff2"), url(https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-Light.woff) format("woff");
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: JetBrains Sans;
+            src: url(https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-Regular.woff2) format("woff2"), url(https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-Regular.woff) format("woff");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: JetBrains Sans;
+            src: url(https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-SemiBold.woff2) format("woff2"), url(https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-SemiBold.woff) format("woff");
+            font-weight: 600;
+            font-style: normal;
+        }
+        
+        
+        code {
+            display: inline;
+            word-break: break-word;
+            font-size: 15px;
+            line-height: inherit;
+            font-variant-ligatures: none;
+            font-family: JetBrains Sans,monospace;
+            white-space: pre-line;
+            overflow-wrap: break-word;
+        }
+        
+        figcaption {
+            margin-top: 5px;
+        }
+        
+        h2 {
+            padding-top: 16px;
+            padding-bottom: 8px;
+            margin-block-start: 0;
+            margin-block-end: 0;
+        }
+        
+        h3 {
+            padding-top: 8px;
+            padding-bottom: 8px;
+            margin-block-start: 0;
+            margin-block-end: 0;
+        }
+        
+        h4 {
+            padding-top: 4px;
+            padding-bottom: 8px;
+            margin-block-start: 0;
+            margin-block-end: 0;
+        }
+        
+        p {
+            padding: 0;
+            border: 0;
+            line-height: 25px;
+            margin-block-start: 0;
+            margin-block-end: 0;
+            padding-bottom: 8px;
+        }
+        
+        div {
+            display: block;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            page-break-inside: avoid;
+        }
+        
+        th, td {
+            border: 1px solid #c4c4c4;
+            padding: 10px;
+            text-align: left;
+            word-break: break-all;
+        }
+        
+        .no-bold {
+            font-weight: normal; 
+        }
+        
+        .entry {
+            display: grid;
+            grid-template-columns: auto max-content;
+            grid-template-areas: "chapter page";
+            align-items: end;
+            gap: 0 .25rem;
+            line-height: 25px;
+        }
+        
+        .toc-link-container{
+            grid-area: chapter;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .toc-link{
+            text-decoration: none;
+            color: black;
+        }
+        
+        .toc-link-container::after {
+            position: absolute;
+            padding-left: .25ch;
+            content: " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ";
+            text-align: right;
+        }
+        
+        .page {
+            grid-area: page;
+            width: 30px;
+            text-align: right;
+        }
+        
+
+        .table-wrapper {
+            overflow: hidden;
+            box-sizing: border-box;
+            font: inherit;
+        }
+        
+
+        .topic {
+            page-break-before: always;
+        }
+        </style><title>pdfSourceC</title></head><body><div><section class="topic"><div><article class="article"><h1 class="main-title">Table of Contents</h1><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#2111190712">Getting Started</a></div><div class="page">2</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#668094793">Dependencies</a></div><div class="page">5</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#594760089">Overview</a></div><div class="page">7</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#114148">src</a></div><div class="page">8</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#2053801262">shaders</a></div><div class="page">10</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#-1659648748">objects</a></div><div class="page">11</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#-1651379419">obscure</a></div><div class="page">12</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#-877724955">Assignment 2</a></div><div class="page">15</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#603612191">Buildings</a></div><div class="page">16</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#67974124">Floor</a></div><div class="page">18</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#-1987432049">Animations</a></div><div class="page">20</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#2092863">Cars</a></div><div class="page">21</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#2055479419">Drones</a></div><div class="page">23</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#-1613776409">Global State</a></div><div class="page">25</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#775969250">Menu &amp; Overlay</a></div><div class="page">26</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#-365578728">Top Down Camera</a></div><div class="page">27</div></div><div class="entry"><div class="toc-link-container"><a class="toc-link" href="#-1100293722">Free Camera</a></div><div class="page">28</div></div></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="2111190712">Getting Started</h1><p id="2111190712#-ws4xiz_3">This section explains how to set up your environment and build the project.</p><section class="detached"><h2 id="2111190712#1-dependencies" data-toc="1-dependencies#Getting-Started.md-1-dependencies">1. Dependencies</h2><p id="2111190712#-ws4xiz_6">To make the build process more repeatable most dependencies are included in the project as submodules (The files are in this project). There are two major exceptions.</p><section class="detached"><h3 id="2111190712#1-1-a-c-compiler" data-toc="1-1-a-c-compiler#Getting-Started.md-1-1-a-c-compiler">1.1 A c++ compiler</h3><p id="2111190712#-ws4xiz_9">More specifically the project uses the C23 <span class="inline-code" id="2111190712#-ws4xiz_12">#embed</span> feature to embed resources such as shaders / objects / textures into the executable. At the time of writing both the <span class="inline-code" id="2111190712#-ws4xiz_13">clang</span> and <span class="inline-code" id="2111190712#-ws4xiz_14">gcc</span> toolchains support this feature.</p><p id="2111190712#-ws4xiz_10">Since the <span class="inline-code" id="2111190712#-ws4xiz_15">clang</span> compiler is available on all major desktop platforms the project is configured to use the clang compiler if it is detected (<span class="inline-code" id="2111190712#-ws4xiz_16">CMakePresets.json</span>).</p><p id="2111190712#-ws4xiz_11">To see if other compilers support this feature, see the C23 Compiler support (<a href="https://en.cppreference.com/w/c/compiler_support/23">https://en.cppreference.com/w/c/compiler_support/23</a>) website.</p></section><section class="detached"><h3 id="2111190712#1-2-vulkan-sdk" data-toc="1-2-vulkan-sdk#Getting-Started.md-1-2-vulkan-sdk">1.2 Vulkan SDK</h3><p id="2111190712#-ws4xiz_18">The vulkan sdk is just too large to include in the project and needs to be installed manually.</p><p id="2111190712#-ws4xiz_19">If you use a package manager, the sdk should be available on most and could be installed this way.</p><p id="2111190712#-ws4xiz_20">Otherwise, go to the Vulkan SDK Download (<a href="https://vulkan.lunarg.com/sdk/home">https://vulkan.lunarg.com/sdk/home</a>) page and download the installer for your operating system.</p></section></section><section class="detached"><h2 id="2111190712#2-build" data-toc="2-build#Getting-Started.md-2-build">2. Build</h2><section class="detached"><h3 id="2111190712#2-1-list-the-presets-for-your-system" data-toc="2-1-list-the-presets-for-your-system#Getting-Started.md-2-1-list-the-presets-for-your-system">2.1 List the presets for your system</h3><div class="detached code-block" id="2111190712#-ws4xiz_27"><pre><code class="language-bash">cmake --list-presets</code></pre></div><p id="2111190712#-ws4xiz_28">The output will look something like</p><div class="detached code-block" id="2111190712#-ws4xiz_29"><pre><code class="language-none">Available configure presets:
+
+  &quot;linux-debug&quot;   - Linux Debug
+  &quot;linux-release&quot; - Linux Release</code></pre></div><p id="2111190712#-ws4xiz_30">The ID of the preset is the quoted string. Pick a preset and remember its ID that id will be referenced as <span class="inline-code" id="2111190712#-ws4xiz_31">&lt;preset-id&gt;</span> going forward.</p></section><section class="detached"><h3 id="2111190712#2-2-create-a-subdirectory" data-toc="2-2-create-a-subdirectory#Getting-Started.md-2-2-create-a-subdirectory">2.2 Create a subdirectory</h3><div class="detached code-block" id="2111190712#-ws4xiz_32"><pre><code class="language-bash">mkdir build &amp;&amp; cd build</code></pre></div><p id="2111190712#-ws4xiz_33">The following instructions will assume that you are in a subdirectory of the project. If you want to use a different name for this directory you are welcome.</p></section><section class="detached"><h3 id="2111190712#2-3-generate-the-build-files" data-toc="2-3-generate-the-build-files#Getting-Started.md-2-3-generate-the-build-files">2.3 Generate the build files</h3><div class="detached code-block" id="2111190712#-ws4xiz_34"><pre><code class="language-bash">cmake -S .. -B . -G Ninja --preset=&lt;preset&gt;</code></pre></div><p id="2111190712#-ws4xiz_35">As an example if I wanted to create a debug build on linux the command would be.</p><div class="detached code-block" id="2111190712#-ws4xiz_36"><pre><code class="language-bash">cmake -S .. -B . -G Ninja --preset=&quot;linux-debug&quot;</code></pre></div><p id="2111190712#-ws4xiz_37">If this command executes successfully all dependencies have been found by cmake.</p><p id="2111190712#-ws4xiz_38">If it is needed to try again the command must be modified a bit.</p><div class="detached code-block" id="2111190712#-ws4xiz_39"><pre><code class="language-bash">cmake -S .. -B . -G Ninja --preset=&lt;preset&gt; --fresh</code></pre></div></section><section class="detached"><h3 id="2111190712#2-4-build-the-project" data-toc="2-4-build-the-project#Getting-Started.md-2-4-build-the-project">2.4 Build the project</h3><div class="detached code-block" id="2111190712#-ws4xiz_40"><pre><code class="language-bash">cmake --build ./</code></pre></div></section><section class="detached"><h3 id="2111190712#2-5-run-the-project" data-toc="2-5-run-the-project#Getting-Started.md-2-5-run-the-project">2.5 Run the project</h3><p id="2111190712#-ws4xiz_41">Linux</p><div class="detached code-block" id="2111190712#-ws4xiz_42"><pre><code class="language-bash">./cos3712</code></pre></div><p id="2111190712#-ws4xiz_43">Windows</p><div class="detached code-block" id="2111190712#-ws4xiz_44"><pre><code class="language-bash">./cos3712.exe</code></pre></div></section></section></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="668094793">Dependencies</h1><p id="668094793#z8uu6jo_3">As mentioned in the Getting Started (<a href="#2111190712">Getting Started</a>) section most of the dependencies are already submodules of the project. This section explains exactly what those dependencies are and where they are used.</p><section class="detached"><h2 id="668094793#1-obscure" data-toc="1-obscure#Dependencies.md-1-obscure">1. Obscure</h2><p id="668094793#z8uu6jo_8">This is the main dependency of the project. Obscure is a rendering engine that I wrote from scratch. It aims to provide the boilerplate code needed to use vulkan while making it easy to add custom graphics pipelines.</p><section class="detached"><h3 id="668094793#1-1-vulkan-sdk" data-toc="1-1-vulkan-sdk#Dependencies.md-1-1-vulkan-sdk">1.1 Vulkan SDK</h3><p id="668094793#z8uu6jo_15">The vulkan API is central to the project and is the API through which the various graphics pipelines are executed and ultimately displayed.</p><p id="668094793#z8uu6jo_16">The vulkan sdk also supports the executable <span class="inline-code" id="668094793#z8uu6jo_18">glslc</span> which is used to compile all glsl shaders. These compiled shaders are easier to interpret by GPU drivers making the graphics pipeline consistent across a wide variety of GPU's.</p></section><section class="detached"><h3 id="668094793#1-2-glfw" data-toc="1-2-glfw#Dependencies.md-1-2-glfw">1.2 GLFW</h3><p id="668094793#z8uu6jo_20">This library manages the output window / screen as well as any mouse / keyboard input.</p></section><section class="detached"><h3 id="668094793#1-3-vulkanmemoryallocator" data-toc="1-3-vulkanmemoryallocator#Dependencies.md-1-3-vulkanmemoryallocator">1.3 VulkanMemoryAllocator</h3><p id="668094793#z8uu6jo_23">In vulkan it is possible to allocate memory on the GPU being used. This single memory allocation can then be used by various buffers or textures. Memory allocation strategy however, is a very large / specialized topic, thus I opted to just use an industry standard library to manage this aspect of vulkan for me.</p></section><section class="detached"><h3 id="668094793#1-4-glm" data-toc="1-4-glm#Dependencies.md-1-4-glm">1.4 glm</h3><p id="668094793#z8uu6jo_26">This library defines C++ types for all of the intrinsic types that is available in the glsl language. They can be used to do operations on data that will be sent to the GPU and will behave in a similar way.</p></section><section class="detached"><h3 id="668094793#1-5-stb" data-toc="1-5-stb#Dependencies.md-1-5-stb">1.5 stb</h3><p id="668094793#z8uu6jo_29">In particcular <span class="inline-code" id="668094793#z8uu6jo_31">stb_image.h</span> is used to load images from various format to a format that is usable for vulkan.</p></section></section><section class="detached"><h2 id="668094793#2-rapidobj" data-toc="2-rapidobj#Dependencies.md-2-rapidobj">2. rapidobj</h2><p id="668094793#z8uu6jo_33">The rapidobj library is used to parse Wavefront (<span class="inline-code" id="668094793#z8uu6jo_35">.obj + .mtl</span>) files which allows the project to use assets generated in Blender (Blender projects can be exported to the Wavefront format).</p></section><section class="detached"><h2 id="668094793#3-glnoise" data-toc="3-glnoise#Dependencies.md-3-glnoise">3. glNoise</h2><p id="668094793#z8uu6jo_37">glNoise is a glsl library that provides various functions for generating pseudo random noise in shaders.</p><p id="668094793#z8uu6jo_38">The floor is generated using perlin noise from this library.</p><p id="668094793#z8uu6jo_39">The library is primarily for use in a typescript project, but it is possible to reference the glsl code directly.</p></section></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="594760089">Overview</h1><p id="594760089#-wocvqk_3">This section is an overview of the files in the project and their purpose. The project itself consists of a few directories, each with a specific purpose.</p><section class="detached"><h2 id="594760089#src" data-toc="src#Overview.md-src">src</h2><p id="594760089#-wocvqk_11">The <span class="inline-code" id="594760089#-wocvqk_14">src</span> directory contains all of the source files that is compiled into the final program. This includes resources in their final states.</p></section><section class="detached"><h2 id="594760089#2-shaders" data-toc="2-shaders#Overview.md-2-shaders">2. shaders</h2><p id="594760089#-wocvqk_16">The <span class="inline-code" id="594760089#-wocvqk_19">shaders</span> directory contains the source code for all of the shaders used in the program.</p></section><section class="detached"><h2 id="594760089#3-objects" data-toc="3-objects#Overview.md-3-objects">3. objects</h2><p id="594760089#-wocvqk_21">This directory contains the Blender (<span class="inline-code" id="594760089#-wocvqk_24">.blend</span>) files for various objects that needs to be drawn when the program is run.</p></section><section class="detached"><h2 id="594760089#4-obscure" data-toc="4-obscure#Overview.md-4-obscure">4. obscure</h2><p id="594760089#-wocvqk_26">This directory contains the source for the obscure library.</p></section><section class="detached"><h2 id="594760089#5-3rd-party" data-toc="5-3rd-party#Overview.md-5-3rd-party">5. 3rd_party</h2><p id="594760089#-wocvqk_30">The <span class="inline-code" id="594760089#-wocvqk_33">3rd_party</span> directory contains the sources for most of the dependencies required by the project.</p><p id="594760089#-wocvqk_31">See the dependencies (<a href="#668094793">Dependencies</a>).</p></section><section class="detached"><h2 id="594760089#6-writerside" data-toc="6-writerside#Overview.md-6-writerside">6. Writerside</h2><p id="594760089#-wocvqk_36">The <span class="inline-code" id="594760089#-wocvqk_38">Writerside</span> directory contains the source files for this document.</p></section></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="114148">src</h1><p id="114148#-y83cdj_3">Following is a quick overview over the C++ files in this directory.</p><ol class="list list-decimal" id="114148#-y83cdj_4" type="1" start="1"><li class="list-item" id="114148#-y83cdj_7"><p id="114148#-y83cdj_18"><span class="inline-code" id="114148#-y83cdj_19">cos3712.cpp</span> This is the entry point and where everything is brought together.</p></li><li class="list-item" id="114148#-y83cdj_8"><p id="114148#-y83cdj_20"><span class="inline-code" id="114148#-y83cdj_21">Animation.cppm</span> A module with all of the programming for different animations and combining them.</p></li><li class="list-item" id="114148#-y83cdj_9"><p id="114148#-y83cdj_22"><span class="inline-code" id="114148#-y83cdj_23">Building.cppm</span> The code for tying together building models and the locations where they should be drawn.</p></li><li class="list-item" id="114148#-y83cdj_10"><p id="114148#-y83cdj_24"><span class="inline-code" id="114148#-y83cdj_25">Camera.cppm</span> This module interprets user input and translates it into the appropriate camera movement.</p></li><li class="list-item" id="114148#-y83cdj_11"><p id="114148#-y83cdj_26"><span class="inline-code" id="114148#-y83cdj_27">Drone.cppm</span> The module for animating and managing the drones.</p></li><li class="list-item" id="114148#-y83cdj_12"><p id="114148#-y83cdj_28"><span class="inline-code" id="114148#-y83cdj_29">Floor.cppm</span> This module defines the graphics pipeline for drawing the floor.</p></li><li class="list-item" id="114148#-y83cdj_13"><p id="114148#-y83cdj_30"><span class="inline-code" id="114148#-y83cdj_31">GlobalState.cppm</span> This module provides shared access for variables that is needed in more than one other module.</p></li><li class="list-item" id="114148#-y83cdj_14"><p id="114148#-y83cdj_32"><span class="inline-code" id="114148#-y83cdj_33">MenuOverlay.cppm</span> Provides the functions to draw the various menus and overlays and respond to any events that is triggered through the menu.</p></li><li class="list-item" id="114148#-y83cdj_15"><p id="114148#-y83cdj_34"><span class="inline-code" id="114148#-y83cdj_35">ObjectPipe.cppm</span> The code defining the pipeline for drawing different objects. This includes Buildings, Vehicles and drones.</p></li><li class="list-item" id="114148#-y83cdj_16"><p id="114148#-y83cdj_36"><span class="inline-code" id="114148#-y83cdj_37">Resources.cppm</span> + <span class="inline-code" id="114148#-y83cdj_38">resources/Resources.cxx</span> This is the module in which the resources are embedded at compilation time. It provides functionality to access these resources.</p></li><li class="list-item" id="114148#-y83cdj_17"><p id="114148#-y83cdj_39"><span class="inline-code" id="114148#-y83cdj_40">Vehicle.cppm</span> Code for sharing the same model between different different vehicles with each having a distinct transformation.</p></li></ol><p id="114148#-y83cdj_5">There is also a <span class="inline-code" id="114148#-y83cdj_41">resources</span> subfolder containing all of the resources that is embedded in the application in their final processed state.</p><ol class="list list-decimal" id="114148#-y83cdj_6" type="1" start="1"><li class="list-item" id="114148#-y83cdj_42"><p id="114148#-y83cdj_45"><span class="inline-code" id="114148#-y83cdj_46">objects</span> Each of the blender objects (<span class="inline-code" id="114148#-y83cdj_47">.blend</span>) are exported in the wavefront format which exports an object (<span class="inline-code" id="114148#-y83cdj_48">.obj</span>) file and a material file (<span class="inline-code" id="114148#-y83cdj_49">.mtl</span>)</p></li><li class="list-item" id="114148#-y83cdj_43"><p id="114148#-y83cdj_50"><span class="inline-code" id="114148#-y83cdj_51">shaders</span> Contains all of the shaders that the application use compiled to the SPIR-V (<span class="inline-code" id="114148#-y83cdj_52">.spv</span>) format.</p></li><li class="list-item" id="114148#-y83cdj_44"><p id="114148#-y83cdj_53"><span class="inline-code" id="114148#-y83cdj_54">textures</span> Contains all of the textures used by the application, currently empty.</p></li></ol></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="2053801262">shaders</h1><p id="2053801262#-pyiui9_3">The code for both the vertex (<span class="inline-code" id="2053801262#-pyiui9_8">.vert</span>) and fragment (<span class="inline-code" id="2053801262#-pyiui9_9">.frag</span>) shaders, written in the <span class="inline-code" id="2053801262#-pyiui9_10">glsl</span> language, for the following entities can be found in this directory.</p><ul class="list" id="2053801262#-pyiui9_4" start="1"><li class="list-item" id="2053801262#-pyiui9_11"><p id="2053801262#-pyiui9_13">object</p></li><li class="list-item" id="2053801262#-pyiui9_12"><p id="2053801262#-pyiui9_14">floor</p></li></ul><p id="2053801262#-pyiui9_5">The glNoise shader library is located in the <span class="inline-code" id="2053801262#-pyiui9_15">glNoise</span> subdirectory.</p><p id="2053801262#-pyiui9_6">The instructions for compiling the shaders is located here in the <span class="inline-code" id="2053801262#-pyiui9_16">CMakeLists.txt</span> file.</p><p id="2053801262#-pyiui9_7">The shaders are compiled to <span class="inline-code" id="2053801262#-pyiui9_17">src/resources/shaders</span>.</p></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="-1659648748">objects</h1><p id="-1659648748#ddhppl_3">This folder contains the blender (<span class="inline-code" id="-1659648748#ddhppl_5">.blend</span>) files for all of the objects in the application except for the floor which is generated programatiacally.</p><ol class="list list-decimal" id="-1659648748#ddhppl_4" type="1" start="1"><li class="list-item" id="-1659648748#ddhppl_6"><p id="-1659648748#ddhppl_13"><span class="inline-code" id="-1659648748#ddhppl_14">Building1.blend</span> A thin tower like building, provided by my wife.</p></li><li class="list-item" id="-1659648748#ddhppl_7"><p id="-1659648748#ddhppl_15"><span class="inline-code" id="-1659648748#ddhppl_16">Building2.blend</span> A large multistory building, provided by my wife.</p></li><li class="list-item" id="-1659648748#ddhppl_8"><p id="-1659648748#ddhppl_17"><span class="inline-code" id="-1659648748#ddhppl_18">Building3.blend</span> A simple house, provided by my wife.</p></li><li class="list-item" id="-1659648748#ddhppl_9"><p id="-1659648748#ddhppl_19"><span class="inline-code" id="-1659648748#ddhppl_20">drone.blend</span> A simple torus, cone and beam to model a drone.</p></li><li class="list-item" id="-1659648748#ddhppl_10"><p id="-1659648748#ddhppl_21"><span class="inline-code" id="-1659648748#ddhppl_22">hole_building.blend</span> A large regtangular building with a cylindrical hole near the top.</p></li><li class="list-item" id="-1659648748#ddhppl_11"><p id="-1659648748#ddhppl_23"><span class="inline-code" id="-1659648748#ddhppl_24">portal_building.blend</span> A building building with a large circular 'entrance' through which vehicles can enter or exit the scene out of view of the user.</p></li><li class="list-item" id="-1659648748#ddhppl_12"><p id="-1659648748#ddhppl_25"><span class="inline-code" id="-1659648748#ddhppl_26">ship.blend</span> A spaceship like model that is used as a flying car.</p></li></ol></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="-1651379419">obscure</h1><p id="-1651379419#-w7o4zs_3">Obscure is my rendering engine which I wrote.</p><p id="-1651379419#-w7o4zs_4">The main aim or differentiator of this rendering engine is that it assumes that the user wants to customize the pipelines that the application will use and tries to make it very easy to define custom pipelines.</p><p id="-1651379419#-w7o4zs_5">To define a custom pipeline the user has to define a structure with specific members.</p><section class="detached"><h2 id="-1651379419#1-shader-list-typename" data-toc="1-shader-list-typename#obscure.md-1-shader-list-typename">1. shader_list typename</h2><p id="-1651379419#-w7o4zs_10">A compile time list of shaders that the pipeline requires.</p><p id="-1651379419#-w7o4zs_11">A template specialization of the struct <span class="inline-code" id="-1651379419#-w7o4zs_14">shader_loader</span> is required for each shader in the list. The <span class="inline-code" id="-1651379419#-w7o4zs_15">shader_loader</span> specialization should provide a static method <span class="inline-code" id="-1651379419#-w7o4zs_16">load_shader()</span> which returns the data of the compiled shader as something which can be converted into a <span class="inline-code" id="-1651379419#-w7o4zs_17">std::span&lt;const uint32_t&gt;</span> the concept <span class="inline-code" id="-1651379419#-w7o4zs_18">obscure::vulkan::shader_data</span> is provided to confirm the return type is valid at compile time.</p><section class="detached"><h3 id="-1651379419#examples" data-toc="examples#obscure.md-examples">Examples</h3><div class="detached code-block" id="-1651379419#-w7o4zs_19"><pre><code class="language-cpp">export struct ObjectPipe {
+    using shader_list = obscure::make_set&lt;
+        resources::shader_name::object_vertex,
+        resources::shader_name::object_fragment
+    &gt;;
+    ...
+    };</code></pre></div><p id="-1651379419#-w7o4zs_20">From <span class="inline-code" id="-1651379419#-w7o4zs_23">src/ObjectPipe.cppm</span> lines 68-72.</p><div class="detached code-block" id="-1651379419#-w7o4zs_21"><pre><code class="language-cpp">export
+template&lt;resources::shader_name shader&gt;
+struct shader_loader&lt;shader&gt; {
+    static obscure::vulkan::shader_data auto load_shader() {
+        return resources::get_data&lt;shader&gt;();
+    }
+};</code></pre></div><p id="-1651379419#-w7o4zs_22">From <span class="inline-code" id="-1651379419#-w7o4zs_24">src/Resources.cppm</span> lines 76-82;</p></section></section><section class="detached"><h2 id="-1651379419#2-initialize-function" data-toc="2-initialize-function#obscure.md-2-initialize-function">2. initialize function</h2><p id="-1651379419#-w7o4zs_26">The <span class="inline-code" id="-1651379419#-w7o4zs_32">initialize</span> function handles the runtime initialization of the pipeline. The <span class="inline-code" id="-1651379419#-w7o4zs_33">initialize</span> function should return a value of a type that satisfies the <span class="inline-code" id="-1651379419#-w7o4zs_34">obscure::vulkan::pipeline_builder</span> concept.</p><p id="-1651379419#-w7o4zs_27">Obscure provides a function <span class="inline-code" id="-1651379419#-w7o4zs_35">obscure::vulkan::default_pipeline_builder</span>, that initializes all of the fixed function configuration options for the pipeline.</p><div class="detached code-block" id="-1651379419#-w7o4zs_28"><pre><code class="language-cpp">auto result = obscure::vulkan::default_pipeline_builder&lt;1, 2,
+    vk::PrimitiveTopology::eTriangleList,
+    vk::PolygonMode::eFill,
+    vk::FrontFace::eCounterClockwise,
+    vk::ShaderStageFlagBits::eVertex,
+    vk::ShaderStageFlagBits::eFragment&gt;
+(
+    render_pass,
+    samples,
+    shaders,
+    {
+        vk::VertexInputBindingDescription{
+            0,
+            sizeof(ObjectModel::vertex_t),
+            vk::VertexInputRate::eVertex
+        }
+    },
+    {
+        vk::VertexInputAttributeDescription{
+            0,
+            0,
+            vk::Format::eR32G32B32Sfloat,
+            offsetof(ObjectModel::vertex_t, position)
+        },
+        vk::VertexInputAttributeDescription{
+            1,
+            0,
+            vk::Format::eR32G32B32Sfloat,
+            offsetof(ObjectModel::vertex_t, normal)
+        }
+    });</code></pre></div><p id="-1651379419#-w7o4zs_29">From <span class="inline-code" id="-1651379419#-w7o4zs_36">src/ObjectPipe.cppm</span> lines 80-110.</p><p id="-1651379419#-w7o4zs_30">Further configuration is then left to the implementer.</p></section><section class="detached"><h2 id="-1651379419#2-draw-calls-typename" data-toc="2-draw-calls-typename#obscure.md-2-draw-calls-typename">2. draw_calls typename</h2><p id="-1651379419#-w7o4zs_38">The <span class="inline-code" id="-1651379419#-w7o4zs_40">draw_calls</span> type must inherit the <span class="inline-code" id="-1651379419#-w7o4zs_41">obscure::vulkan::draw_call_base</span>. This struct contains all of the code for invoking the graphics pipeline with various parameters. Any public functions of the <span class="inline-code" id="-1651379419#-w7o4zs_42">draw_calls</span> type is exposed in the <span class="inline-code" id="-1651379419#-w7o4zs_43">frame_ctx</span>. The <span class="inline-code" id="-1651379419#-w7o4zs_44">frame_ctx</span> is obtained by calling <span class="inline-code" id="-1651379419#-w7o4zs_45">begin_frame()</span> on the <span class="inline-code" id="-1651379419#-w7o4zs_46">graphics_context</span>.</p></section></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="-877724955">Assignment 2</h1><p id="-877724955#-kbyjgo_3">This section is about all of the requirements for assignment 2, and how they were implemented.</p><section class="detached"><h2 id="-877724955#1-city-layout-and-buildings" data-toc="1-city-layout-and-buildings#Assignment2.md-1-city-layout-and-buildings">1. City Layout and Buildings</h2><p id="-877724955#-kbyjgo_7">This section was broken up into 2 pieces.</p><ol class="list list-decimal" id="-877724955#-kbyjgo_8" type="1" start="1"><li class="list-item" id="-877724955#-kbyjgo_9"><p id="-877724955#-kbyjgo_11">Buildings (<a href="#603612191">Buildings</a>)</p></li><li class="list-item" id="-877724955#-kbyjgo_10"><p id="-877724955#-kbyjgo_13">Floor (<a href="#67974124">Floor</a>)</p></li></ol></section><section class="detached"><h2 id="-877724955#2-cars-drones" data-toc="2-cars-drones#Assignment2.md-2-cars-drones">2. Cars &amp; Drones</h2><p id="-877724955#-kbyjgo_15">This section was broken up into 3 pieces.</p><ol class="list list-decimal" id="-877724955#-kbyjgo_16" type="1" start="1"><li class="list-item" id="-877724955#-kbyjgo_17"><p id="-877724955#-kbyjgo_20">Animations (<a href="#-1987432049">Animations</a>)</p></li><li class="list-item" id="-877724955#-kbyjgo_18"><p id="-877724955#-kbyjgo_22">Cars (<a href="#2092863">Cars</a>)</p></li><li class="list-item" id="-877724955#-kbyjgo_19"><p id="-877724955#-kbyjgo_24">Drones (<a href="#2055479419">Drones</a>)</p></li></ol></section><section class="detached"><h2 id="-877724955#3-camera-user-controls" data-toc="3-camera-user-controls#Assignment2.md-3-camera-user-controls">3. Camera &amp; User Controls</h2><p id="-877724955#-kbyjgo_26">This section was broken up into 4 pieces.</p><ol class="list list-decimal" id="-877724955#-kbyjgo_27" type="1" start="1"><li class="list-item" id="-877724955#-kbyjgo_28"><p id="-877724955#-kbyjgo_32">Global State (<a href="#-1613776409">Global State</a>)</p></li><li class="list-item" id="-877724955#-kbyjgo_29"><p id="-877724955#-kbyjgo_34">Menu &amp; Overlay (<a href="#775969250">Menu &amp; Overlay</a>)</p></li><li class="list-item" id="-877724955#-kbyjgo_30"><p id="-877724955#-kbyjgo_36">Top down camera (<a href="#-365578728">Top Down Camera</a>)</p></li><li class="list-item" id="-877724955#-kbyjgo_31"><p id="-877724955#-kbyjgo_38">Free camera (<a href="#-1100293722">Free Camera</a>)</p></li></ol></section></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="603612191">Buildings</h1><p id="603612191#-9txyte_3">Buildings are represented by an object model and a list of transformations.</p><p id="603612191#-9txyte_4">It is assumed that the transformation for each building will remain relatively static and as such all of the transformations for each building shape is stored together (see <span class="inline-code" id="603612191#-9txyte_12">src/Building.cppm</span>).</p><p id="603612191#-9txyte_5">The buildings are drawn using the <span class="inline-code" id="603612191#-9txyte_13">ObjectPipe</span> pipelines <span class="inline-code" id="603612191#-9txyte_14">draw_objects</span> function. This function takes in a model along with a list of transforms, sends the model to the GPU once and then redraws that model for each transform in the list (See <span class="inline-code" id="603612191#-9txyte_15">src/ObjectPipe.cppm</span>).</p><div class="detached code-block" id="603612191#-9txyte_6"><pre><code class="language-cpp">frame.draw_objects(viewproj, portal.locations, portal.model);
+frame.draw_objects(viewproj, hole.locations, hole.model);
+frame.draw_objects(viewproj, building1.locations, building1.model);
+frame.draw_objects(viewproj, building2.locations, building2.model);
+frame.draw_objects(viewproj, building3.locations, building3.model);</code></pre></div><p id="603612191#-9txyte_7">From <span class="inline-code" id="603612191#-9txyte_16">src/cos3712.cpp</span> Lines 204-208.</p><p id="603612191#-9txyte_8">The model for each building is loaded when the building is initialized. Locations are later added by calling the function <span class="inline-code" id="603612191#-9txyte_17">add_instance</span>. <span class="inline-code" id="603612191#-9txyte_18">add_instance</span> takes an angle that the model will be rotated by (around the UP axis) and the location that the building will be drawn at (It is assumed that the building is near the origin of the model).</p><p id="603612191#-9txyte_9">There are a total of 8 buildings that is drawn in the world.</p><div class="detached code-block" id="603612191#-9txyte_10"><pre><code class="language-cpp">portal.add_instance(225.0f, glm::vec3{50.0f, 50.0f, 0.0f});
+portal.add_instance(90.0f, glm::vec3{-70.0f, -100.0f, 5.0f});
+
+hole.add_instance(0.0f, glm::vec3{75.0f, -38.2f, 0.0f});
+hole.add_instance(0.0f, glm::vec3{-75.0f, 38.3f, 0.0f});
+
+building2.add_instance(0.0f, glm::vec3{-10.0f, 30.0f, 5.0f});
+building2.add_instance(180.0f, glm::vec3{10.0f, 40.0f, 1.0f});
+
+building1.add_instance(0.0f, glm::vec3{-50.0f, 0.0f, 0.0f});
+
+
+
+building3.add_instance(0.0f, glm::vec3{50.0f, 0.0f, 2.0f});</code></pre></div><p id="603612191#-9txyte_11">From <span class="inline-code" id="603612191#-9txyte_19">src/cos3712.cpp</span> Lines 130-143.</p></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="67974124">Floor</h1><p id="67974124#-vk3p7z_3">Most of this discussion will concern <span class="inline-code" id="67974124#-vk3p7z_24">shaders/floor.vert</span>.</p><p id="67974124#-vk3p7z_4">The floor is a procedurally generated surface and is drawn centered around the camera (if the camera moves laterally the floor will move with the camera).</p><p id="67974124#-vk3p7z_5">The algorithm at its core is very simple.</p><p id="67974124#-vk3p7z_6">Construct a grid in row major order (indices increase from left to right, then top to bottom) with N rows and columns.</p><div class="table-wrapper detached"><table id="67974124#-vk3p7z_7"><tr class="header-row" id="67974124#-vk3p7z_25"><th id="67974124#-vk3p7z_29"><p>0</p></th><th id="67974124#-vk3p7z_30"><p>1</p></th><th id="67974124#-vk3p7z_31"><p>2</p></th><th id="67974124#-vk3p7z_32"><p>...</p></th><th id="67974124#-vk3p7z_33"><p>N - 1</p></th></tr><tr class="" id="67974124#-vk3p7z_26"><td id="67974124#-vk3p7z_34"><p>N</p></td><td id="67974124#-vk3p7z_35"><p>N + 1</p></td><td id="67974124#-vk3p7z_36"><p>N + 2</p></td><td id="67974124#-vk3p7z_37"><p>...</p></td><td id="67974124#-vk3p7z_38"><p>2N - 1</p></td></tr><tr class="" id="67974124#-vk3p7z_27"><td id="67974124#-vk3p7z_39"><p>...</p></td><td id="67974124#-vk3p7z_40"><p>...</p></td><td id="67974124#-vk3p7z_41"><p>...</p></td><td id="67974124#-vk3p7z_42"><p>...</p></td><td id="67974124#-vk3p7z_43"><p>...</p></td></tr><tr class="" id="67974124#-vk3p7z_28"><td id="67974124#-vk3p7z_44"><p>(N - 1)N</p></td><td id="67974124#-vk3p7z_45"><p>(N - 1)N + 1</p></td><td id="67974124#-vk3p7z_46"><p>(N - 1)N + 2</p></td><td id="67974124#-vk3p7z_47"><p>...</p></td><td id="67974124#-vk3p7z_48"><p>N^2 - 1</p></td></tr></table></div><p id="67974124#-vk3p7z_8">Then to calculate the row <span class="inline-code" id="67974124#-vk3p7z_49">row = index % N</span> and column <span class="inline-code" id="67974124#-vk3p7z_50">col = index / N</span> is easy.</p><div class="detached code-block" id="67974124#-vk3p7z_9"><pre><code class="language-glsl">uint Col = gridIndex / NumCols;
+uint Row = gridIndex % NumCols;</code></pre></div><p id="67974124#-vk3p7z_10">Lines 36-37.</p><p id="67974124#-vk3p7z_11">However, each cell in the grid represents a square and a square can be constructed from two triangles. Two triangles has 6 vertices, therefore the <span class="inline-code" id="67974124#-vk3p7z_51">gridIndex = gl_VertexIndex / 6;</span> can be calculated from the vertex index.</p><p id="67974124#-vk3p7z_12">From there the position for the current square is calculated.</p><div class="detached code-block" id="67974124#-vk3p7z_13"><pre><code class="language-glsl">vec2 xy = vec2(2 * Col * Step, 2 * Row * Step) + pos;</code></pre></div><p id="67974124#-vk3p7z_14">Line 23. Where pos is (almost) the position of the camera.</p><p id="67974124#-vk3p7z_15">An offset is then added to this position depending on which vertex is being drawn.</p><div class="detached code-block" id="67974124#-vk3p7z_16"><pre><code class="language-glsl">xy += offsets[square];</code></pre></div><p id="67974124#-vk3p7z_17">Line 24. Where square is the index of the vertex (0-5) for the current square.</p><p id="67974124#-vk3p7z_18">These values are then used to calculate perlin noise for z value of the final vertex position. The color for each vertex cycles between red, green and blue.</p><p id="67974124#-vk3p7z_19">Finally the accuracy for the camera position is clipped so that the floor only updates on whole number intervals of the grid size.</p><div class="detached code-block" id="67974124#-vk3p7z_20"><pre><code class="language-cpp">template&lt;float step&gt;
+static float step_pos(float a) {
+    constexpr static float modifier = 2.0f * step;
+    a /= modifier;
+    return std::floor(a) * modifier;
+}</code></pre></div><p id="67974124#-vk3p7z_21">From <span class="inline-code" id="67974124#-vk3p7z_52">src/Floor.cppm</span> Lines 62-67.</p><div class="detached code-block" id="67974124#-vk3p7z_22"><pre><code class="language-cpp">push_constant_t push_const{
+    transform,
+    glm::vec2 {
+        step_pos&lt;0.5f&gt;(global::cameraPosition().x),
+        step_pos&lt;0.5f&gt;(global::cameraPosition().y)
+    }
+};</code></pre></div><p id="67974124#-vk3p7z_23">From <span class="inline-code" id="67974124#-vk3p7z_53">src/Floor.cppm</span> Lines 92-98.</p></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="-1987432049">Animations</h1><p id="-1987432049#iyhhum_3">Animations are concieved as some sort of function which can update a transform based on a previous transform the total time for which the program has been running and the time difference between the previous update and this one.</p><p id="-1987432049#iyhhum_4">The <span class="inline-code" id="-1987432049#iyhhum_10">src/Animation.cppm</span> module defines two basic animations</p><ol class="list list-decimal" id="-1987432049#iyhhum_5" type="1" start="1"><li class="list-item" id="-1987432049#iyhhum_11"><p id="-1987432049#iyhhum_13">Translate at a constant rate.</p></li><li class="list-item" id="-1987432049#iyhhum_12"><p id="-1987432049#iyhhum_14">Rotate at a constant rate.</p></li></ol><p id="-1987432049#iyhhum_6">As well as various higher order animation constrcuts such as</p><ol class="list list-decimal" id="-1987432049#iyhhum_7" type="1" start="1"><li class="list-item" id="-1987432049#iyhhum_15"><p id="-1987432049#iyhhum_19">A combination of several animations.</p></li><li class="list-item" id="-1987432049#iyhhum_16"><p id="-1987432049#iyhhum_20">A limit to the duration of an animation.</p></li><li class="list-item" id="-1987432049#iyhhum_17"><p id="-1987432049#iyhhum_21">A sequence of animations each performed one after the other.</p></li><li class="list-item" id="-1987432049#iyhhum_18"><p id="-1987432049#iyhhum_22">A loop of animations which behaves similarly to a sequence except that the animation is reset to a known state before repeating the animation.</p></li></ol><p id="-1987432049#iyhhum_8">There are overloads to binary operators to more easily compose animations.</p><ol class="list list-decimal" id="-1987432049#iyhhum_9" type="1" start="1"><li class="list-item" id="-1987432049#iyhhum_23"><p id="-1987432049#iyhhum_26">A logical and <span class="inline-code" id="-1987432049#iyhhum_27">&amp;</span> of two or more animations creates a combination.</p></li><li class="list-item" id="-1987432049#iyhhum_24"><p id="-1987432049#iyhhum_28">A logical and <span class="inline-code" id="-1987432049#iyhhum_29">&amp;</span> of an animation and a duration creates a limited time animation.</p></li><li class="list-item" id="-1987432049#iyhhum_25"><p id="-1987432049#iyhhum_30">A logical or <span class="inline-code" id="-1987432049#iyhhum_31">|</span> of two or more time limited animations creates a sequence of animations.</p></li></ol></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="2092863">Cars</h1><p id="2092863#z2hk6we_3">Or vehicles.</p><p id="2092863#z2hk6we_4">A vehicle is represented as a shared object model along with a transform. The object is shared to prevent the need for keeping more than one copy of the same object model in memory. Each vehicle has their own transform, because the animation for even similar models can be very different and different vehicles may be using the same model from completely different scopes.</p><p id="2092863#z2hk6we_5">There is currently a single model for a vehicle (<span class="inline-code" id="2092863#z2hk6we_12">objects/ship.blend</span>).</p><p id="2092863#z2hk6we_6">There are 5 vehicles drawn and animated in the application.</p><div class="detached code-block" id="2092863#z2hk6we_7"><pre><code class="language-cpp">Vehicle ship1;
+ship1_animation_t ship1_animation;
+Vehicle ship2;
+ship2_animation_t ship2_animation;
+Vehicle ship3;
+ship3_animation_t ship3_animation;
+Vehicle ship4;
+ship4_animation_t ship4_animation;
+Vehicle ship5;
+ship5_animation_t ship5_animation;</code></pre></div><p id="2092863#z2hk6we_8">From <span class="inline-code" id="2092863#z2hk6we_13">src/cos3712.cpp</span> Lines 97-106.</p><div class="detached code-block" id="2092863#z2hk6we_9"><pre><code class="language-cpp">if (global::AnimateCars()) {
+	ship1.transform = evaluate_animations(ship1.transform, total_time - vehicle_stop_time, frame_time, ship1_animation);
+	ship2.transform = evaluate_animations(ship2.transform, total_time - vehicle_stop_time, frame_time, ship2_animation);
+	ship3.transform = evaluate_animations(ship3.transform, total_time - vehicle_stop_time, frame_time, ship3_animation);
+	ship4.transform = evaluate_animations(ship4.transform, total_time - vehicle_stop_time, frame_time, ship4_animation);
+	ship5.transform = evaluate_animations(ship5.transform, total_time - vehicle_stop_time, frame_time, ship5_animation);
+}
+else {
+	vehicle_stop_time += frame_time;
+}
+
+frame.draw_objects(viewproj,
+	{
+		ship1.transform,
+		ship2.transform,
+		ship3.transform,
+		ship4.transform,
+		ship5.transform
+	}, *ship1.model);</code></pre></div><p id="2092863#z2hk6we_10">From <span class="inline-code" id="2092863#z2hk6we_14">src/cos3712.cpp</span> Lines 180-198.</p><p id="2092863#z2hk6we_11">It should be noted that <span class="inline-code" id="2092863#z2hk6we_15">vehicle_stop_time</span> increases as long as the vehicle animations is paused and is subtracted from the total time. If this is not done the implementation of loops breaks for a single loop as the wrong sequence of animations is executed.</p></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="2055479419">Drones</h1><p id="2055479419#z40lde_3">Drones are represented similarly to buildings with a model and a list of transforms. This is because all of the drones has the same animation (a rotation).</p><p id="2055479419#z40lde_4">There is one drone model <span class="inline-code" id="2055479419#z40lde_12">objects/drone.blend</span>.</p><div class="detached code-block" id="2055479419#z40lde_5"><pre><code class="language-cpp">DroneList drones;</code></pre></div><p id="2055479419#z40lde_6">From <span class="inline-code" id="2055479419#z40lde_13">src/cos3712.cpp</span> Line 107.</p><p id="2055479419#z40lde_7">It is drawn 4 times.</p><div class="detached code-block" id="2055479419#z40lde_8"><pre><code class="language-cpp">drones.add_drone(glm::vec3{20.0f, 20.0f, 100.0f});
+drones.add_drone(glm::vec3{-20.0f, -20.0f, 100.0f});
+drones.add_drone(glm::vec3{-20.0f, 20.0f, 100.0f});
+drones.add_drone(glm::vec3{20.0f, -20.0f, 100.0f});</code></pre></div><p id="2055479419#z40lde_9">From <span class="inline-code" id="2055479419#z40lde_14">src/cos3712.cpp</span> Line 146-149.</p><p id="2055479419#z40lde_10">The animations will skip the first 2 drones in the list when the option is toggled.</p><div class="detached code-block" id="2055479419#z40lde_11"><pre><code class="language-cpp">void animate() {
+    auto update = evaluate_animations(glm::identity&lt;glm::mat4&gt;(), rotation);
+    if (global::AnimateFirst2Drones()) {
+        for (auto &amp; transform : locations) {
+            transform *= update;
+        }
+    }
+    else {
+        for (auto &amp; transform : locations | std::ranges::views::drop(2)) {
+            transform *= update;
+        }
+    }
+}</code></pre></div></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="-1613776409">Global State</h1><p id="-1613776409#xy8y86_3">There are some actions which can be initiated either from a menu or as a key event. And there is some actions which has repercussions for multiple other systems.</p><p id="-1613776409#xy8y86_4">For these cases the appropriate functions to manipulate and access limited shared state is exposed from the <span class="inline-code" id="-1613776409#xy8y86_8">src/GlobalState.cppm</span> module;</p><p id="-1613776409#xy8y86_5">This includes:</p><ol class="list list-decimal" id="-1613776409#xy8y86_6" type="1" start="1"><li class="list-item" id="-1613776409#xy8y86_9"><p id="-1613776409#xy8y86_14"><span class="inline-code" id="-1613776409#xy8y86_15">windowRef</span> which required both to display to the screen as well as recieve input from the keyboard and mouse.</p></li><li class="list-item" id="-1613776409#xy8y86_10"><p id="-1613776409#xy8y86_16"><span class="inline-code" id="-1613776409#xy8y86_17">CurrentCameraMode</span> which can be updated from both a menu action and a key event.</p></li><li class="list-item" id="-1613776409#xy8y86_11"><p id="-1613776409#xy8y86_18"><span class="inline-code" id="-1613776409#xy8y86_19">cameraPosition</span> which required to update the camera as well as draw the scene.</p></li><li class="list-item" id="-1613776409#xy8y86_12"><p id="-1613776409#xy8y86_20"><span class="inline-code" id="-1613776409#xy8y86_21">AnimateFirst2Drones</span> which has to be updated from user input and used when animating the drones.</p></li><li class="list-item" id="-1613776409#xy8y86_13"><p id="-1613776409#xy8y86_22"><span class="inline-code" id="-1613776409#xy8y86_23">AnimateCars</span> which has to be updated from user input and used to decide wether to animate any cars.</p></li></ol><p id="-1613776409#xy8y86_7">There is also a utility function <span class="inline-code" id="-1613776409#xy8y86_24">toggleKey</span> which only triggers an action again if the key was released between presses.</p></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="775969250">Menu &amp; Overlay</h1><p id="775969250#q9f04r_3">The menu is provided to control various other systems of the applications. However, all systems except for the overlay system can also be controlled using the keyboard and mouse.</p><p id="775969250#q9f04r_4">The overlay system provides useful information to the user:</p><ol class="list list-decimal" id="775969250#q9f04r_5" type="1" start="1"><li class="list-item" id="775969250#q9f04r_6"><p id="775969250#q9f04r_9">The controls of the application</p></li><li class="list-item" id="775969250#q9f04r_7"><p id="775969250#q9f04r_10">The camera mode</p></li><li class="list-item" id="775969250#q9f04r_8"><p id="775969250#q9f04r_11">The frame rate</p></li></ol></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="-365578728">Top Down Camera</h1><p id="-365578728#z1y06at_3">In this mode the orientation of the camera is locked such that there is only 4-DOF.</p><ol class="list list-decimal" id="-365578728#z1y06at_4" type="1" start="1"><li class="list-item" id="-365578728#z1y06at_7"><p id="-365578728#z1y06at_11">Move Forward and Backwards.</p></li><li class="list-item" id="-365578728#z1y06at_8"><p id="-365578728#z1y06at_12">Move Left and Right.</p></li><li class="list-item" id="-365578728#z1y06at_9"><p id="-365578728#z1y06at_13">Move Up and Down.</p></li><li class="list-item" id="-365578728#z1y06at_10"><p id="-365578728#z1y06at_14">Rotate Left and Right.</p></li></ol><div class="detached code-block" id="-365578728#z1y06at_5"><pre><code class="language-cpp">glm::vec3 up = glm::normalize(glm::vec3{orientation.x, orientation.y, 0.0f});
+
+        global::cameraPosition() += camera_speed * elapsed_seconds * updateCameraPosition(up);
+
+#pragma region rotation
+
+        if (window.isKeyPressed(GLFW_KEY_Q)) {
+            pan_angle += elapsed_seconds;
+        }
+        if (window.isKeyPressed(GLFW_KEY_E)) {
+            pan_angle -= elapsed_seconds;
+        }
+        orientation = calculateCameraOrientation(pan_angle, tilt_angle);
+
+#pragma endregion
+
+        return glm::lookAt(global::cameraPosition(), global::cameraPosition() + glm::vec3{0.0f, 0.0f, -1.0f}, up);</code></pre></div><p id="-365578728#z1y06at_6">From <span class="inline-code" id="-365578728#z1y06at_15">src/Camera.cppm</span> Lines 105-121.</p></article></div></section><section class="topic"><div><article class="article"><h1 class="main-title" id="-1100293722">Free Camera</h1><p id="-1100293722#-5q0wvd_3">The free camera is the oposite of the Top Down Camera where the only restriction is that the camera will always remain &quot;upright&quot;.</p><div class="detached code-block" id="-1100293722#-5q0wvd_4"><pre><code class="language-cpp">#pragma region rotation
+
+
+        static auto PrevMode = global::CurrentCameraMode();
+        static auto [prev_x, prev_y] = window.getCursorPos();
+        auto [mouse_x, mouse_y] = window.getCursorPos();
+        if (PrevMode == global::CurrentCameraMode()) {
+            pan_angle -= elapsed_seconds * static_cast&lt;float&gt;(mouse_x - prev_x);
+            tilt_angle -= elapsed_seconds * static_cast&lt;float&gt;(mouse_y - prev_y);
+
+            orientation = calculateCameraOrientation(pan_angle, tilt_angle);
+
+        }
+        PrevMode = global::CurrentCameraMode();
+        prev_x = mouse_x;
+        prev_y = mouse_y;
+
+#pragma endregion
+        return glm::lookAt(global::cameraPosition(), global::cameraPosition() + orientation, glm::vec3{0.0f, 0.0f, 1.0f});</code></pre></div><p id="-1100293722#-5q0wvd_5">From <span class="inline-code" id="-1100293722#-5q0wvd_6">src/Camera.cppm</span> Lines</p></article></div></section></div></body></html>

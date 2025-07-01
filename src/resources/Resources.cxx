@@ -11,28 +11,28 @@ using namespace resources;
 #pragma clang diagnostic ignored "-Wc23-extensions"
 
 #pragma region textures
-constexpr const char viking_room_png_data[] = {
-#embed "textures/viking_room.png"
-};
-
-std::span<const stbi_uc> resources::viking_room_png() noexcept
-{
-    return std::span<const stbi_uc>{ reinterpret_cast<stbi_uc const*>(viking_room_png_data), sizeof(viking_room_png_data) / sizeof(stbi_uc) };
-}
+//constexpr const char viking_room_png_data[] = {
+// #embed "textures/viking_room.png"
+// };
+//
+// std::span<const stbi_uc> resources::viking_room_png() noexcept
+// {
+//     return std::span<const stbi_uc>{ reinterpret_cast<stbi_uc const*>(viking_room_png_data), sizeof(viking_room_png_data) / sizeof(stbi_uc) };
+// }
 
 #pragma endregion
 
 #pragma region objects
 
-constexpr const char viking_room_obj_data[] = {
-#embed "objects/viking_room.obj"
-};
-
-
-std::span<const char> resources::viking_room_obj()
-{
-    return std::span<const char>{ viking_room_obj_data };
-}
+// constexpr const char viking_room_obj_data[] = {
+// #embed "objects/viking_room.obj"
+// };
+//
+//
+// std::span<const char> resources::viking_room_obj()
+// {
+//     return std::span<const char>{ viking_room_obj_data };
+// }
 
 constexpr const char portal_building_obj_data[] = {
 #embed "objects/portal_building.obj"

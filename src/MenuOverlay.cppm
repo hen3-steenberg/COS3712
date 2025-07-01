@@ -78,7 +78,7 @@ void drawOverlay()
         {
             if (showFramerate)
             {
-                char frameRateText[] = "Frame Rate : 0000";
+                char frameRateText[] = "Frame Rate :     ";
                 char* number_start = frameRateText + 13;
                 std::to_chars(frameRateText + 13, frameRateText + 17, static_cast<uint32_t>(1.0 / frame_time.count()));
                 ImGui::Text(frameRateText);
@@ -123,16 +123,16 @@ void drawMenu()
             ImGui::MenuItem("Toggle Cars", "T", &global::AnimateCars());
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("Edit"))
-        {
-            if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {} // Disabled item
-            ImGui::Separator();
-            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-            ImGui::EndMenu();
-        }
+        // if (ImGui::BeginMenu("Edit"))
+        // {
+        //     if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+        //     if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {} // Disabled item
+        //     ImGui::Separator();
+        //     if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+        //     if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+        //     if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+        //     ImGui::EndMenu();
+        // }
         ImGui::EndMainMenuBar();
     }
 }
@@ -143,5 +143,5 @@ export void drawMenuOverlay(vk::CommandBuffer command_buffer)
     frame_time = stopwatch.lap_time();
     drawMenu();
     drawOverlay();
-    ImGui::ShowDemoWindow();
+    //ImGui::ShowDemoWindow();
 }
