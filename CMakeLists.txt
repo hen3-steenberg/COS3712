@@ -10,6 +10,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(OBSCURE_TEST OFF)
 
 add_subdirectory("3rd_party")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/3rd_party")
 add_subdirectory("obscure")
 add_subdirectory("shaders")
 

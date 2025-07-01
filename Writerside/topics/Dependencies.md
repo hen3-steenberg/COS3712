@@ -8,30 +8,33 @@ This is the main dependency of the project.
 Obscure is a rendering engine that I wrote from scratch. It aims to provide the boilerplate code needed
 to use vulkan while making it easy to add custom graphics pipelines.
 
-### 1.1 Vulkan SDK
+### 1.1 [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/)
 The vulkan API is central to the project and is the API through which the various graphics pipelines are executed and ultimately displayed.
 
 The vulkan sdk also supports the executable `glslc` which is used to compile all glsl shaders. 
 These compiled shaders are easier to interpret by GPU drivers making the graphics pipeline consistent across a wide variety of GPU's.
 
-### 1.2 GLFW
+### 1.2 [GLFW](https://github.com/glfw/glfw)
 This library manages the output window / screen as well as any mouse / keyboard input.
 
-### 1.3 VulkanMemoryAllocator
+### 1.3 [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
 In vulkan it is possible to allocate memory on the GPU being used. 
 This single memory allocation can then be used by various buffers or textures. 
 Memory allocation strategy however, is a very large / specialized topic, 
 thus I opted to just use an industry standard library to manage this aspect of vulkan for me.
 
-### 1.4 glm
+### 1.4 [glm](https://github.com/g-truc/glm)
 This library defines C++ types for all of the intrinsic types that is available in the glsl language.
 They can be used to do operations on data that will be sent to the GPU and will behave in a similar way.
 
-## 2. rapidobj
+### 1.5 [stb](https://github.com/nothings/stb)
+In particcular `stb_image.h` is used to load images from various format to a format that is usable for vulkan.
+
+## 2. [rapidobj](https://github.com/guybrush77/rapidobj)
 The rapidobj library is used to parse Wavefront (`.obj + .mtl`) files which allows the project to use assets generated in Blender
 (Blender projects can be exported to the Wavefront format).
 
-## 3. glNoise
+## 3. [glNoise](https://github.com/FarazzShaikh/glNoise)
 glNoise is a glsl library that provides various functions for generating pseudo random noise in shaders.
 
 The floor is generated using perlin noise from this library.

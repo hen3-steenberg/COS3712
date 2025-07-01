@@ -16,3 +16,6 @@
 [submodule "3rd_party/glNoise"]
 	path = 3rd_party/glNoise
 	url = git@github.com:FarazzShaikh/glNoise.git
+[submodule "3rd_party/stb"]
+	path = 3rd_party/stb
+	url = git@github.com:nothings/stb.git

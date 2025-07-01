@@ -33,8 +33,8 @@ vec3 colors[6] = vec3[](
 void main() {
     uint gridIndex = gl_VertexIndex / 6;
     uint squareIndex = gl_VertexIndex % 6;
-    uint Col = gridIndex % NumCols;
-    uint Row = gridIndex / NumCols;
+    uint Col = gridIndex / NumCols;
+    uint Row = gridIndex % NumCols;
     gl_Position = transform * vec4(getVertex(Row, Col, squareIndex, position), 1.0);
     fragColor = colors[squareIndex];
 }
