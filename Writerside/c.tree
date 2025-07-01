@@ -4,27 +4,26 @@
 
 <instance-profile id="c"
                  name="COS3712"
-                 start-page="starter-topic.md">
+                 start-page="Getting-Started.md">
 
     <toc-element topic="Getting-Started.md">
         <toc-element topic="Dependencies.md"/>
     </toc-element>
     <toc-element topic="Overview.md">
-        <toc-element topic="obscure.md"/>
-        <toc-element topic="objects.md"/>
-        <toc-element topic="shaders.md"/>
         <toc-element topic="src.md"/>
+        <toc-element topic="shaders.md"/>
+        <toc-element topic="objects.md"/>
+        <toc-element topic="obscure.md"/>
     </toc-element>
     <toc-element topic="Assignment2.md">
-        <toc-element topic="Free-Camera.md"/>
-        <toc-element topic="Top-Down-Camera.md"/>
-        <toc-element topic="Menu-Overlay.md"/>
-        <toc-element topic="Global-State.md"/>
-        <toc-element topic="Drones.md"/>
-        <toc-element topic="Cars.md"/>
-        <toc-element topic="Animations.md"/>
-        <toc-element topic="Floor.md"/>
         <toc-element topic="Buildings.md"/>
+        <toc-element topic="Floor.md"/>
+        <toc-element topic="Animations.md"/>
+        <toc-element topic="Cars.md"/>
+        <toc-element topic="Drones.md"/>
+        <toc-element topic="Global-State.md"/>
+        <toc-element topic="Menu-Overlay.md"/>
+        <toc-element topic="Top-Down-Camera.md"/>
+        <toc-element topic="Free-Camera.md"/>
     </toc-element>
-    <toc-element topic="starter-topic.md"/>
 </instance-profile>
