@@ -3,7 +3,7 @@ module;
 #define GLM_ALIGNED_TYPEDEF
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <bits/ios_base.h>
+#include <algorithm>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

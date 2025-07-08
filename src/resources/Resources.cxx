@@ -39,7 +39,7 @@ constexpr const char portal_building_obj_data[] = {
 };
 
 std::span<const char> resources::portal_obj() {
-    return std::span<const char> { portal_building_obj_data };
+    return std::span<const char> { portal_building_obj_data, sizeof(portal_building_obj_data) };
 }
 
 constexpr const char portal_building_mtl_data[] = {

@@ -5,11 +5,13 @@ module;
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
 #include <string_view>
+#if __has_include(<spanstream>)
 #include <spanstream>
+#else
+#endif
 #include <span>
-
-#define TINYOBJLOADER_IMPLEMENTATION
-#include "tiny_obj_loader.h"
+#include <initializer_list>
+#include <iostream>
 
 #include "rapidobj/rapidobj.hpp"
 export module ObjectPipe;
@@ -19,6 +21,74 @@ export import obscure.vulkan.pipeline;
 export import obscure.vulkan.buffer;
 
 import Resources;
+
+#if __has_include(<spanstream>)
+using ispanstream = std::ispanstream;
+#else
+struct spanstream : std::streambuf {
+    std::span<const char> data;
+    size_t pos = 0;
+
+    explicit spanstream(std::span<const char> data)
+    : data(data) {
+
+    }
+
+protected:
+    pos_type seekoff(off_type offset, std::ios_base::seekdir dir, std::ios_base::openmode) override {
+
+        switch (dir) {
+            case std::ios_base::beg:
+                pos = offset;
+                break;
+            case std::ios_base::cur:
+                pos += offset;
+                break;
+            case std::ios_base::end:
+                pos = data.size() - offset;
+        }
+
+        return pos;
+    }
+
+    pos_type seekpos(pos_type pos_, std::ios_base::openmode) override {
+        pos = pos_;
+        return pos;
+    }
+
+    std::streamsize showmanyc() override {
+        return data.size() - pos;
+    }
+
+    int_type uflow() override {
+        if (pos < data.size()) {
+            return traits_type::to_int_type(data[pos++]);
+        }
+        else {
+            return traits_type::eof();
+        }
+    }
+
+    std::streamsize xsgetn(char * s, std::streamsize n) override {
+        size_t count = std::min<size_t>(n, data.size() - pos);
+        memcpy(s, data.data() + pos, count);
+        pos += count;
+        return count;
+    }
+
+};
+
+struct ispanstream : private spanstream, public std::istream {
+
+    explicit ispanstream(std::span<const char> data_)
+        : spanstream(data_),
+        std::istream{this}
+    {}
+
+};
+
+
+#endif
 
 export struct ObjectModel {
     struct vertex_t {
@@ -31,9 +101,14 @@ export struct ObjectModel {
 
     template<typename Ctx>
     static ObjectModel load_from_memory(Ctx const& ctx, std::span<const char> obj, std::string_view mtl) {
-        std::ispanstream ss{obj};
+        ispanstream ss{obj};
         auto Parsed_obj = rapidobj::detail::ParseStream(ss, rapidobj::MaterialLibrary::String(mtl));
         //rapidobj::Triangulate(Parsed_obj);
+
+        if (Parsed_obj.error.code) {
+            std::cerr << Parsed_obj.error.code.message() << std::endl;
+            throw Parsed_obj.error.code;
+        }
 
         std::vector<vertex_t> vertices;
         std::vector<uint32_t> indices;
@@ -208,6 +283,10 @@ export struct ObjectPipe {
 
                 get_command_buffer().drawIndexed(object.index_buffer.count(), 1, 0, 0, 0);
             }
+        }
+
+        void draw_objects(glm::mat4 world_transform, std::initializer_list<glm::mat4> model_transforms, ObjectModel const &object) const {
+            draw_objects(world_transform, std::span<const glm::mat4>{ model_transforms.begin(), model_transforms.end() }, object);
         }
     };
 };
