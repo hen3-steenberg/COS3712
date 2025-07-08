@@ -1,0 +1,38 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="built-on" content="2025-07-08T23:03:10.553486779"><title>Floor | COS3712</title><script type="application/json" id="virtual-toc-data">[]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Floor | COS3712"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="COS3712 Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/floor.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Floor | COS3712"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/floor.html#webpage",
+    "url": "writerside-documentation/floor.html",
+    "name": "Floor | COS3712",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "COS3712 Help"
+}</script><!-- End Schema.org --></head><body data-id="Floor" data-main-title="Floor" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Assignment2.md|Assignment 2"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>COS3712  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Floor" id="Floor.md">Floor</h1><p id="z5beb1i_3">Most of this discussion will concern <code class="code" id="z5beb1i_24">shaders/floor.vert</code>.</p><p id="z5beb1i_4">The floor is a procedurally generated surface and is drawn centered around the camera (if the camera moves laterally the floor will move with the camera).</p><p id="z5beb1i_5">The algorithm at its core is very simple.</p><p id="z5beb1i_6">Construct a grid in row major order (indices increase from left to right, then top to bottom) with N rows and columns.</p><div class="table-wrapper"><table class="wide" id="z5beb1i_7"><thead><tr class="ijRowHead" id="z5beb1i_25"><th id="z5beb1i_29"><p>0</p></th><th id="z5beb1i_30"><p>1</p></th><th id="z5beb1i_31"><p>2</p></th><th id="z5beb1i_32"><p>...</p></th><th id="z5beb1i_33"><p>N - 1</p></th></tr></thead><tbody><tr id="z5beb1i_26"><td id="z5beb1i_34"><p>N</p></td><td id="z5beb1i_35"><p>N + 1</p></td><td id="z5beb1i_36"><p>N + 2</p></td><td id="z5beb1i_37"><p>...</p></td><td id="z5beb1i_38"><p>2N - 1</p></td></tr><tr id="z5beb1i_27"><td id="z5beb1i_39"><p>...</p></td><td id="z5beb1i_40"><p>...</p></td><td id="z5beb1i_41"><p>...</p></td><td id="z5beb1i_42"><p>...</p></td><td id="z5beb1i_43"><p>...</p></td></tr><tr id="z5beb1i_28"><td id="z5beb1i_44"><p>(N - 1)N</p></td><td id="z5beb1i_45"><p>(N - 1)N + 1</p></td><td id="z5beb1i_46"><p>(N - 1)N + 2</p></td><td id="z5beb1i_47"><p>...</p></td><td id="z5beb1i_48"><p>N^2 - 1</p></td></tr></tbody></table></div><p id="z5beb1i_8">Then to calculate the row <code class="code" id="z5beb1i_49">row = index % N</code> and column <code class="code" id="z5beb1i_50">col = index / N</code> is easy.</p><div class="code-block" data-lang="glsl">
+    uint Col = gridIndex / NumCols;
+    uint Row = gridIndex % NumCols;
+</div><p id="z5beb1i_10">Lines 36-37.</p><p id="z5beb1i_11">However, each cell in the grid represents a square and a square can be constructed from two triangles. Two triangles has 6 vertices, therefore the <code class="code" id="z5beb1i_51">gridIndex = gl_VertexIndex / 6;</code> can be calculated from the vertex index.</p><p id="z5beb1i_12">From there the position for the current square is calculated.</p><div class="code-block" data-lang="glsl">
+vec2 xy = vec2(2 * Col * Step, 2 * Row * Step) + pos;
+</div><p id="z5beb1i_14">Line 23. Where pos is (almost) the position of the camera.</p><p id="z5beb1i_15">An offset is then added to this position depending on which vertex is being drawn.</p><div class="code-block" data-lang="glsl">
+xy += offsets[square];
+</div><p id="z5beb1i_17">Line 24. Where square is the index of the vertex (0-5) for the current square.</p><p id="z5beb1i_18">These values are then used to calculate perlin noise for z value of the final vertex position. The color for each vertex cycles between red, green and blue.</p><p id="z5beb1i_19">Finally the accuracy for the camera position is clipped so that the floor only updates on whole number intervals of the grid size.</p><div class="code-block" data-lang="cpp">
+    template&lt;float step&gt;
+    static float step_pos(float a) {
+        constexpr static float modifier = 2.0f * step;
+        a /= modifier;
+        return std::floor(a) * modifier;
+    }
+</div><p id="z5beb1i_21">From <code class="code" id="z5beb1i_52">src/Floor.cppm</code> Lines 62-67.</p><div class="code-block" data-lang="cpp">
+            push_constant_t push_const{
+                transform,
+                glm::vec2 {
+                    step_pos&lt;0.5f&gt;(global::cameraPosition().x),
+                    step_pos&lt;0.5f&gt;(global::cameraPosition().y)
+                }
+            };
+</div><p id="z5beb1i_23">From <code class="code" id="z5beb1i_53">src/Floor.cppm</code> Lines 92-98.</p><div class="last-modified">01 July 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="buildings.html" class="navigation-links__prev">Buildings</a><a href="animations.html" class="navigation-links__next">Animations</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

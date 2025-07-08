@@ -1,0 +1,47 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="built-on" content="2025-07-08T23:03:10.584443821"><title>Cars | COS3712</title><script type="application/json" id="virtual-toc-data">[]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Cars | COS3712"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="COS3712 Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/cars.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Cars | COS3712"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/cars.html#webpage",
+    "url": "writerside-documentation/cars.html",
+    "name": "Cars | COS3712",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "COS3712 Help"
+}</script><!-- End Schema.org --></head><body data-id="Cars" data-main-title="Cars" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Assignment2.md|Assignment 2"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>COS3712  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Cars" id="Cars.md">Cars</h1><p id="ajuge1_3">Or vehicles.</p><p id="ajuge1_4">A vehicle is represented as a shared object model along with a transform. The object is shared to prevent the need for keeping more than one copy of the same object model in memory. Each vehicle has their own transform, because the animation for even similar models can be very different and different vehicles may be using the same model from completely different scopes.</p><p id="ajuge1_5">There is currently a single model for a vehicle (<code class="code" id="ajuge1_12">objects/ship.blend</code>).</p><p id="ajuge1_6">There are 5 vehicles drawn and animated in the application.</p><div class="code-block" data-lang="cpp">
+	Vehicle ship1;
+	ship1_animation_t ship1_animation;
+	Vehicle ship2;
+	ship2_animation_t ship2_animation;
+	Vehicle ship3;
+	ship3_animation_t ship3_animation;
+	Vehicle ship4;
+	ship4_animation_t ship4_animation;
+	Vehicle ship5;
+	ship5_animation_t ship5_animation;
+</div><p id="ajuge1_8">From <code class="code" id="ajuge1_13">src/cos3712.cpp</code> Lines 97-106.</p><div class="code-block" data-lang="cpp">
+		if (global::AnimateCars()) {
+			ship1.transform = evaluate_animations(ship1.transform, total_time - vehicle_stop_time, frame_time, ship1_animation);
+			ship2.transform = evaluate_animations(ship2.transform, total_time - vehicle_stop_time, frame_time, ship2_animation);
+			ship3.transform = evaluate_animations(ship3.transform, total_time - vehicle_stop_time, frame_time, ship3_animation);
+			ship4.transform = evaluate_animations(ship4.transform, total_time - vehicle_stop_time, frame_time, ship4_animation);
+			ship5.transform = evaluate_animations(ship5.transform, total_time - vehicle_stop_time, frame_time, ship5_animation);
+		}
+		else {
+			vehicle_stop_time += frame_time;
+		}
+
+		frame.draw_objects(viewproj,
+			{
+				ship1.transform,
+				ship2.transform,
+				ship3.transform,
+				ship4.transform,
+				ship5.transform
+			}, *ship1.model);
+</div><p id="ajuge1_10">From <code class="code" id="ajuge1_14">src/cos3712.cpp</code> Lines 180-198.</p><p id="ajuge1_11">It should be noted that <code class="code" id="ajuge1_15">vehicle_stop_time</code> increases as long as the vehicle animations is paused and is subtracted from the total time. If this is not done the implementation of loops breaks for a single loop as the wrong sequence of animations is executed.</p><div class="last-modified">01 July 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="animations.html" class="navigation-links__prev">Animations</a><a href="drones.html" class="navigation-links__next">Drones</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

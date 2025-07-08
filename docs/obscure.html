@@ -1,0 +1,64 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="built-on" content="2025-07-08T23:03:10.552033082"><title>obscure | COS3712</title><script type="application/json" id="virtual-toc-data">[{"id":"1-shader-list-typename","level":0,"title":"1. shader_list typename","anchor":"#1-shader-list-typename"},{"id":"2-initialize-function","level":0,"title":"2. initialize function","anchor":"#2-initialize-function"},{"id":"2-draw-calls-typename","level":0,"title":"2. draw_calls typename","anchor":"#2-draw-calls-typename"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="obscure | COS3712"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="COS3712 Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/obscure.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="obscure | COS3712"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/obscure.html#webpage",
+    "url": "writerside-documentation/obscure.html",
+    "name": "obscure | COS3712",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "COS3712 Help"
+}</script><!-- End Schema.org --></head><body data-id="obscure" data-main-title="obscure" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Overview.md|Overview"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>COS3712  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="obscure" id="obscure.md">obscure</h1><p id="v9xk5p_3">Obscure is my rendering engine which I wrote.</p><p id="v9xk5p_4">The main aim or differentiator of this rendering engine is that it assumes that the user wants to customize the pipelines that the application will use and tries to make it very easy to define custom pipelines.</p><p id="v9xk5p_5">To define a custom pipeline the user has to define a structure with specific members.</p><section class="chapter"><h2 id="1-shader-list-typename" data-toc="1-shader-list-typename">1. <code class="code" id="v9xk5p_13">shader_list</code> typename</h2><p id="v9xk5p_10">A compile time list of shaders that the pipeline requires.</p><p id="v9xk5p_11">A template specialization of the struct <code class="code" id="v9xk5p_14">shader_loader</code> is required for each shader in the list. The <code class="code" id="v9xk5p_15">shader_loader</code> specialization should provide a static method <code class="code" id="v9xk5p_16">load_shader()</code> which returns the data of the compiled shader as something which can be converted into a <code class="code" id="v9xk5p_17">std::span&lt;const uint32_t&gt;</code> the concept <code class="code" id="v9xk5p_18">obscure::vulkan::shader_data</code> is provided to confirm the return type is valid at compile time.</p><section class="chapter"><h3 id="examples" data-toc="examples">Examples</h3><div class="code-block" data-lang="cpp">
+export struct ObjectPipe {
+    using shader_list = obscure::make_set&lt;
+        resources::shader_name::object_vertex,
+        resources::shader_name::object_fragment
+    &gt;;
+    ...
+    };
+</div><p id="v9xk5p_20">From <code class="code" id="v9xk5p_23">src/ObjectPipe.cppm</code> lines 68-72.</p><div class="code-block" data-lang="cpp">
+export
+template&lt;resources::shader_name shader&gt;
+struct shader_loader&lt;shader&gt; {
+    static obscure::vulkan::shader_data auto load_shader() {
+        return resources::get_data&lt;shader&gt;();
+    }
+};
+</div><p id="v9xk5p_22">From <code class="code" id="v9xk5p_24">src/Resources.cppm</code> lines 76-82;</p></section></section><section class="chapter"><h2 id="2-initialize-function" data-toc="2-initialize-function">2. <code class="code" id="v9xk5p_31">initialize</code> function</h2><p id="v9xk5p_26">The <code class="code" id="v9xk5p_32">initialize</code> function handles the runtime initialization of the pipeline. The <code class="code" id="v9xk5p_33">initialize</code> function should return a value of a type that satisfies the <code class="code" id="v9xk5p_34">obscure::vulkan::pipeline_builder</code> concept.</p><p id="v9xk5p_27">Obscure provides a function <code class="code" id="v9xk5p_35">obscure::vulkan::default_pipeline_builder</code>, that initializes all of the fixed function configuration options for the pipeline.</p><div class="code-block" data-lang="cpp">
+        auto result = obscure::vulkan::default_pipeline_builder&lt;1, 2,
+            vk::PrimitiveTopology::eTriangleList,
+            vk::PolygonMode::eFill,
+            vk::FrontFace::eCounterClockwise,
+            vk::ShaderStageFlagBits::eVertex,
+            vk::ShaderStageFlagBits::eFragment&gt;
+        (
+            render_pass,
+            samples,
+            shaders,
+            {
+                vk::VertexInputBindingDescription{
+                    0,
+                    sizeof(ObjectModel::vertex_t),
+                    vk::VertexInputRate::eVertex
+                }
+            },
+            {
+                vk::VertexInputAttributeDescription{
+                    0,
+                    0,
+                    vk::Format::eR32G32B32Sfloat,
+                    offsetof(ObjectModel::vertex_t, position)
+                },
+                vk::VertexInputAttributeDescription{
+                    1,
+                    0,
+                    vk::Format::eR32G32B32Sfloat,
+                    offsetof(ObjectModel::vertex_t, normal)
+                }
+            });
+</div><p id="v9xk5p_29">From <code class="code" id="v9xk5p_36">src/ObjectPipe.cppm</code> lines 80-110.</p><p id="v9xk5p_30">Further configuration is then left to the implementer.</p></section><section class="chapter"><h2 id="2-draw-calls-typename" data-toc="2-draw-calls-typename">2. <code class="code" id="v9xk5p_39">draw_calls</code> typename</h2><p id="v9xk5p_38">The <code class="code" id="v9xk5p_40">draw_calls</code> type must inherit the <code class="code" id="v9xk5p_41">obscure::vulkan::draw_call_base</code>. This struct contains all of the code for invoking the graphics pipeline with various parameters. Any public functions of the <code class="code" id="v9xk5p_42">draw_calls</code> type is exposed in the <code class="code" id="v9xk5p_43">frame_ctx</code>. The <code class="code" id="v9xk5p_44">frame_ctx</code> is obtained by calling <code class="code" id="v9xk5p_45">begin_frame()</code> on the <code class="code" id="v9xk5p_46">graphics_context</code>.</p></section><div class="last-modified">01 July 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="objects.html" class="navigation-links__prev">objects</a><a href="assignment2.html" class="navigation-links__next">Assignment 2</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>
