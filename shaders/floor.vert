@@ -35,6 +35,7 @@ void main() {
     uint squareIndex = gl_VertexIndex % 6;
     uint Col = gridIndex / NumCols;
     uint Row = gridIndex % NumCols;
-    gl_Position = transform * vec4(getVertex(Row, Col, squareIndex, position), 1.0);
-    fragColor = colors[squareIndex];
+    vec3 pos = getVertex(Row, Col, squareIndex, position);
+    gl_Position = transform * vec4(pos, 1.0);
+    fragColor = vec3(0.7, 0.6, 0.0) - pos.z * vec3(0.2, 0.0, -0.1);
 }
