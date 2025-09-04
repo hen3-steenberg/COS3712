@@ -17,8 +17,10 @@ export struct Floor {
     >;
 
     struct push_constant_t {
-        glm::mat4 transform;
-        glm::vec2 position;
+        alignas(16) glm::mat4 transform;
+        alignas(16) glm::vec3 cameraPos;
+        alignas(16) glm::vec3 sunDirection;
+        alignas(16) glm::vec3 sunColor;
     };
 
     static obscure::vulkan::static_pipeline_builder<2, 2, 0, 0> initialize(
@@ -66,6 +68,11 @@ export struct Floor {
         return std::floor(a) * modifier;
     }
 
+    static glm::vec3 sundirection(float angle) {
+        float radians = angle * M_PI / 180.0f;
+        return glm::vec3{0.0f, std::cos(radians), -std::sin(radians)};
+    }
+
     struct draw_calls : obscure::vulkan::draw_call_base {
         void draw_floor(glm::mat4 transform) const {
             bind_pipeline();
@@ -88,13 +95,11 @@ export struct Floor {
 
             get_command_buffer().setScissor(0, 1, &scissor);
 
-
             push_constant_t push_const{
                 transform,
-                glm::vec2 {
-                    step_pos<0.5f>(global::cameraPosition().x),
-                    step_pos<0.5f>(global::cameraPosition().y)
-                }
+                global::cameraPosition(),
+                sundirection(global::sunAngle()),
+                glm::vec3{global::sunColor()[0], global::sunColor()[1], global::sunColor()[2]}
             };
 
 

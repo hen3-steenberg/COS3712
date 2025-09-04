@@ -209,6 +209,12 @@ struct app_t {
 
 #pragma endregion
 
+#pragma region sun
+		if (global::updateSun()) {
+			global::sunAngle() += frame_time.count() * global::sunSpeed();
+		}
+#pragma endregion
+
 #pragma region floor
 
 		frame.draw_floor(viewproj);

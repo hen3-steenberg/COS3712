@@ -5,6 +5,7 @@ module;
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
+#include <array>
 export module GlobalState;
 export import obscure.glfw;
 
@@ -77,5 +78,31 @@ export namespace global
             animate_cars = !animate_cars;
         });
         return animate_cars;
+    }
+
+    bool& updateSun() {
+        static bool update_sun = true;
+        toggleKey<GLFW_KEY_P>([]() {
+            update_sun = !update_sun;
+        });
+        return update_sun;
+    }
+
+    float &sunAngle() {
+        static float sun_angle = 0.0f;
+        if (sun_angle >= 360.0f) {
+            sun_angle -= 360.0f;
+        }
+        return sun_angle;
+    }
+
+    float &sunSpeed() {
+        static float sun_speed = 1.0f;
+        return sun_speed;
+    }
+
+    std::array<float, 3> & sunColor() {
+        static std::array<float, 3> sun_color {1.0f, 1.0f, 1.0f};
+        return sun_color;
     }
 }

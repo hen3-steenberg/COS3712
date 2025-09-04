@@ -42,7 +42,9 @@ Free Camera Controls:
     Pan/Tilt    -> [MOUSE CURSOR]
 Top Down Camera Controls:
     Rotate Right    -> E
-    Rotate Left     -> Q)";
+    Rotate Left     -> Q
+Lights:
+    Update Sun Direction -> P)";
 #pragma endregion
 
 #pragma region camera mode
@@ -123,6 +125,16 @@ void drawMenu()
             ImGui::MenuItem("Toggle Cars", "T", &global::AnimateCars());
             ImGui::EndMenu();
         }
+        if (ImGui::BeginMenu("Lights")) {
+            if (ImGui::BeginMenu("Sun")) {
+                ImGui::MenuItem("Update Sun Direction", "P", &global::updateSun());
+                ImGui::DragFloat("Sun Angle", &global::sunAngle(), 0.005f, 0.0f, 360.0f, "%.3f", ImGuiSliderFlags_WrapAround);
+                ImGui::SliderFloat("Sun Angular Speed", &global::sunSpeed(), 0.1f, 10.0f, "%.3f", ImGuiSliderFlags_Logarithmic);
+                ImGui::ColorEdit3("Sun Color", global::sunColor().data(), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_PickerHueWheel);
+                ImGui::EndMenu();
+            }
+            ImGui::EndMenu();
+        }
         // if (ImGui::BeginMenu("Edit"))
         // {
         //     if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
@@ -143,5 +155,5 @@ export void drawMenuOverlay(vk::CommandBuffer command_buffer)
     frame_time = stopwatch.lap_time();
     drawMenu();
     drawOverlay();
-    //ImGui::ShowDemoWindow();
+    ImGui::ShowDemoWindow();
 }
