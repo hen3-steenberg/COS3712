@@ -7,6 +7,7 @@ module;
 #include <glm/glm.hpp>
 export module Floor;
 export import obscure.vulkan.pipeline;
+export import obscure.vulkan.texture;
 export import Resources;
 import GlobalState;
 
@@ -39,6 +40,24 @@ export struct Floor {
 
 #pragma endregion
 
+#pragma region textures
+        vk::DescriptorSetLayoutBinding texture_binding{
+            0,
+            vk::DescriptorType::eCombinedImageSampler,
+            1,
+            vk::ShaderStageFlagBits::eFragment,
+            nullptr
+        };
+
+        vk::DescriptorSetLayoutCreateInfo texture_set_layout_info{
+                    {},
+                    1,
+                    &texture_binding
+                };
+
+        result.texture_set_layout = device.createDescriptorSetLayout(texture_set_layout_info);
+#pragma endregion
+
 #pragma region push constants
         vk::PushConstantRange push_constants{
             vk::ShaderStageFlagBits::eVertex,
@@ -48,10 +67,11 @@ export struct Floor {
 #pragma endregion
 
 #pragma region pipeline_layout
+
         vk::PipelineLayoutCreateInfo pipeline_info{
             {},
-            0,
-            nullptr,
+            1,
+            &result.texture_set_layout,
             1,
             &push_constants
         };
@@ -68,13 +88,9 @@ export struct Floor {
         return std::floor(a) * modifier;
     }
 
-    static glm::vec3 sundirection(float angle) {
-        float radians = angle * M_PI / 180.0f;
-        return glm::vec3{0.0f, std::cos(radians), -std::sin(radians)};
-    }
-
     struct draw_calls : obscure::vulkan::draw_call_base {
-        void draw_floor(glm::mat4 transform) const {
+        void draw_floor(glm::mat4 transform, obscure::vulkan::rgba_2d_texture<> const& texture) const
+        {
             bind_pipeline();
 
             vk::Viewport viewport{
@@ -98,12 +114,22 @@ export struct Floor {
             push_constant_t push_const{
                 transform,
                 global::cameraPosition(),
-                sundirection(global::sunAngle()),
-                glm::vec3{global::sunColor()[0], global::sunColor()[1], global::sunColor()[2]}
+                global::sundirection(),
+                global::getSunColor()
             };
 
 
             get_command_buffer().pushConstants(get_pipeline_layout(), vk::ShaderStageFlagBits::eVertex, 0, sizeof(push_constant_t), &push_const);
+
+
+            get_command_buffer().bindDescriptorSets(
+                    vk::PipelineBindPoint::eGraphics,
+                    get_pipeline_layout(),
+                    0,
+                    1,
+                    &texture.descriptor_sets[get_frame_index()],
+                    0,
+                    nullptr);
 
             get_command_buffer().draw(6000000, 1, 0, 0);
         }

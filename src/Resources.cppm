@@ -46,6 +46,8 @@ export namespace resources
 
     std::string_view building3_mtl();
 
+    std::span<const stbi_uc> floor_color_png();
+
 #pragma endregion
 
 #pragma region shaders

@@ -105,4 +105,23 @@ export namespace global
         static std::array<float, 3> sun_color {1.0f, 1.0f, 1.0f};
         return sun_color;
     }
+
+    glm::vec3 sundirection() {
+        float radians = sunAngle() * M_PI / 180.0f;
+        return glm::vec3{0.0f, std::cos(radians), -std::sin(radians)};
+    }
+
+    glm::vec3 getSunColor() {
+        return glm::vec3{global::sunColor()[0], global::sunColor()[1], global::sunColor()[2]};
+    }
+
+    struct spotLight {
+        alignas(16) glm::vec3 direction;
+        alignas(16) glm::vec3 position;
+        float cutOff;
+        float outerCutOff;
+        float constant;
+        float linear;
+        float quadratic;
+    };
 }

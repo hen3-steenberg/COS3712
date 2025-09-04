@@ -21,6 +21,7 @@ export import obscure.vulkan.pipeline;
 export import obscure.vulkan.buffer;
 
 import Resources;
+import GlobalState;
 
 #if __has_include(<spanstream>)
 using ispanstream = std::ispanstream;
@@ -92,17 +93,27 @@ struct ispanstream : private spanstream, public std::istream {
 
 export struct ObjectModel {
     struct vertex_t {
-        glm::vec3 position;
-        glm::vec3 normal;
+        alignas(16) glm::vec3 position;
+        alignas(16) glm::vec3 normal;
+    };
+
+    struct color_t {
+        glm::vec3 color;
+        float Ka;
+        float Kd;
+        float Ks;
     };
 
     obscure::vulkan::vertex_buffer<vertex_t> vertex_buffer;
+    obscure::vulkan::vertex_buffer<vertex_t> vertex_buffer_flat;
     obscure::vulkan::index_buffer<uint32_t> index_buffer;
+
+    color_t color;
 
     template<typename Ctx>
     static ObjectModel load_from_memory(Ctx const& ctx, std::span<const char> obj, std::string_view mtl) {
         ispanstream ss{obj};
-        auto Parsed_obj = rapidobj::detail::ParseStream(ss, rapidobj::MaterialLibrary::String(mtl));
+        auto Parsed_obj = rapidobj::ParseStream(ss, rapidobj::MaterialLibrary::Ignore());
         //rapidobj::Triangulate(Parsed_obj);
 
         if (Parsed_obj.error.code) {
@@ -111,6 +122,7 @@ export struct ObjectModel {
         }
 
         std::vector<vertex_t> vertices;
+        std::vector<vertex_t> vertices_flat;
         std::vector<uint32_t> indices;
 
         for (auto & shape : Parsed_obj.shapes) {
@@ -132,15 +144,49 @@ export struct ObjectModel {
             }
         }
 
+        for (size_t idx = 0; idx < vertices.size(); idx+=3) {
+            glm::vec3 normavg = vertices[idx + 0].normal +
+                               vertices[idx + 1].normal +
+                               vertices[idx + 2].normal;
+            normavg = glm::normalize(normavg);
+            vertices_flat.emplace_back(vertices[idx + 0].position, normavg);
+            vertices_flat.emplace_back(vertices[idx + 1].position, normavg);
+            vertices_flat.emplace_back(vertices[idx + 2].position, normavg);
+
+        }
+
         return ObjectModel{
             .vertex_buffer = ctx.template init_vertex_buffer<vertex_t>(vertices),
-            .index_buffer = ctx.template init_index_buffer<uint32_t>(indices)
+            .vertex_buffer_flat = ctx.template init_vertex_buffer<vertex_t>(vertices_flat),
+            .index_buffer = ctx.template init_index_buffer<uint32_t>(indices),
+            .color = {
+                glm::vec3{0.6, 0.6, 0.6},
+                0.5f,
+                0.5f,
+                0.5f
+            }
         };
     }
 };
 
 
 export struct ObjectPipe {
+
+    struct vertex_constant_t {
+        alignas(16) glm::mat4 view_transform;
+        alignas(16) glm::mat4 model_transform;
+        alignas(16) glm::vec3 cameraPos;
+    };
+
+    struct fragment_constant_t {
+        alignas(16) glm::vec3 sunDirection;
+        alignas(16) glm::vec3 sunColor;
+        alignas(16) glm::vec3 base_color;
+        float Ka;
+        float Kd;
+        float Ks;
+    };
+
     using shader_list = obscure::make_set<
         resources::shader_name::object_vertex,
         resources::shader_name::object_fragment
@@ -187,10 +233,17 @@ export struct ObjectPipe {
 #pragma endregion
 
 #pragma region push_constants
-        vk::PushConstantRange push_constants{
-            vk::ShaderStageFlagBits::eVertex,
-            0,
-            sizeof(glm::mat4)
+        vk::PushConstantRange push_constants[] = {
+            {
+                vk::ShaderStageFlagBits::eVertex,
+                0,
+            sizeof(vertex_constant_t)
+            },
+            {
+                vk::ShaderStageFlagBits::eFragment,
+                sizeof(vertex_constant_t),
+                sizeof(fragment_constant_t)
+            }
         };
 #pragma endregion
 
@@ -199,8 +252,8 @@ export struct ObjectPipe {
             {},
             0,
             nullptr,
-            1,
-            &push_constants
+            2,
+            push_constants
         };
 
         result.layout = device.createPipelineLayout(pipeline_info);
@@ -230,7 +283,7 @@ export struct ObjectPipe {
 
             get_command_buffer().setScissor(0, 1, &scissor);
 
-            vk::Buffer buffers[] = {object.vertex_buffer.get_buffer()};
+            vk::Buffer buffers[] = {object.vertex_buffer_flat.get_buffer()};
             vk::DeviceSize offsets[] = {0};
 
             get_command_buffer().bindVertexBuffers(0, 1, buffers, offsets);
@@ -238,10 +291,26 @@ export struct ObjectPipe {
             get_command_buffer().bindIndexBuffer(object.index_buffer.get_buffer(), 0,
                                                  object.index_buffer.get_index_type());
 
-            glm::mat4 transform = world_transform * model_transform;
+            vertex_constant_t vertex_constant {
+                .view_transform = world_transform,
+                .model_transform = model_transform,
+                .cameraPos = global::cameraPosition()
+            };
 
             get_command_buffer().pushConstants(get_pipeline_layout(), vk::ShaderStageFlagBits::eVertex, 0,
-                                               sizeof(glm::mat4), &transform);
+                                               sizeof(vertex_constant_t), &vertex_constant);
+
+            fragment_constant_t fragment_constant = {
+                .sunDirection = global::sundirection(),
+                .sunColor = global::getSunColor(),
+                .base_color = object.color.color,
+                .Ka = object.color.Ka,
+                .Kd = object.color.Kd,
+                .Ks = object.color.Ks
+            };
+
+            get_command_buffer().pushConstants(get_pipeline_layout(), vk::ShaderStageFlagBits::eFragment,
+                sizeof(vertex_constant_t), sizeof(fragment_constant_t), &fragment_constant);
 
             get_command_buffer().drawIndexed(object.index_buffer.count(), 1, 0, 0, 0);
         }
@@ -267,7 +336,7 @@ export struct ObjectPipe {
 
             get_command_buffer().setScissor(0, 1, &scissor);
 
-            vk::Buffer buffers[] = {object.vertex_buffer.get_buffer()};
+            vk::Buffer buffers[] = {object.vertex_buffer_flat.get_buffer()};
             vk::DeviceSize offsets[] = {0};
 
             get_command_buffer().bindVertexBuffers(0, 1, buffers, offsets);
@@ -275,11 +344,30 @@ export struct ObjectPipe {
             get_command_buffer().bindIndexBuffer(object.index_buffer.get_buffer(), 0,
                                                  object.index_buffer.get_index_type());
 
+
+            fragment_constant_t fragment_constant = {
+                .sunDirection = global::sundirection(),
+                .sunColor = global::getSunColor(),
+                .base_color = object.color.color,
+                .Ka = object.color.Ka,
+                .Kd = object.color.Kd,
+                .Ks = object.color.Ks
+            };
+
+            get_command_buffer().pushConstants(get_pipeline_layout(), vk::ShaderStageFlagBits::eFragment,
+                sizeof(vertex_constant_t), sizeof(fragment_constant_t), &fragment_constant);
+
             for (auto const& model_transform : model_transforms) {
-                glm::mat4 transform = world_transform * model_transform;
+                vertex_constant_t vertex_constant {
+                    .view_transform = world_transform,
+                    .model_transform = model_transform,
+                    .cameraPos = global::cameraPosition()
+                };
 
                 get_command_buffer().pushConstants(get_pipeline_layout(), vk::ShaderStageFlagBits::eVertex, 0,
-                                                   sizeof(glm::mat4), &transform);
+                                                   sizeof(vertex_constant_t), &vertex_constant);
+
+
 
                 get_command_buffer().drawIndexed(object.index_buffer.count(), 1, 0, 0, 0);
             }

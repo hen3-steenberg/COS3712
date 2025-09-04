@@ -89,6 +89,7 @@ struct app_t {
 
 	gfx_ctx_t gfx_ctx;
 	obscure::imgui::ctx imgui_ctx;
+	obscure::vulkan::rgba_2d_texture<> color_texture_floor;
 	Building portal;
 	Building hole;
 	Building building1;
@@ -110,8 +111,9 @@ struct app_t {
 	app_t()
 		: gfx_ctx(),
 		imgui_ctx(gfx_ctx),
-		portal(gfx_ctx, resources::portal_obj(), resources::portal_mtl()),
-		hole(gfx_ctx, resources::hole_building_obj(), resources::hole_building_mtl()),
+		color_texture_floor(gfx_ctx.load_texture<Floor>(resources::floor_color_png(), 0)),
+		portal(gfx_ctx, resources::portal_obj(), ""sv),// resources::portal_mtl()),
+		hole(gfx_ctx, resources::hole_building_obj(), ""sv), //resources::hole_building_mtl()),
 		building1(gfx_ctx, resources::building1_obj(), ""sv), //resources::building1_mtl()),
 		building2(gfx_ctx, resources::building2_obj(), ""sv), //resources::building2_mtl()),
 		building3(gfx_ctx, resources::building3_obj(), ""sv), //resources::building3_mtl()),
@@ -137,7 +139,6 @@ struct app_t {
 		building2.add_instance(180.0f, glm::vec3{10.0f, 40.0f, 1.0f});
 
 		building1.add_instance(0.0f, glm::vec3{-50.0f, 0.0f, 0.0f});
-
 
 
 		building3.add_instance(0.0f, glm::vec3{50.0f, 0.0f, 2.0f});
@@ -217,7 +218,7 @@ struct app_t {
 
 #pragma region floor
 
-		frame.draw_floor(viewproj);
+		frame.draw_floor(viewproj, color_texture_floor);
 
 #pragma endregion
 

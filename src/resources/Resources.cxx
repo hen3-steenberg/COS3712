@@ -20,6 +20,14 @@ using namespace resources;
 //     return std::span<const stbi_uc>{ reinterpret_cast<stbi_uc const*>(viking_room_png_data), sizeof(viking_room_png_data) / sizeof(stbi_uc) };
 // }
 
+constexpr const char floor_base[] = {
+#embed "textures/floor_base.png"
+};
+
+std::span<const stbi_uc> resources::floor_color_png() {
+    return std::span<const stbi_uc>{reinterpret_cast<const stbi_uc*>(floor_base), sizeof(floor_base)};
+}
+
 #pragma endregion
 
 #pragma region objects
