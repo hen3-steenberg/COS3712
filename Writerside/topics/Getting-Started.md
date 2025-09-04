@@ -1,4 +1,9 @@
 # Getting Started
+The project is available on github
+- [Project](https://github.com/hen3-steenberg/COS3712)
+- [Release Artifacts](https://github.com/hen3-steenberg/COS3712/releases/tag/V_2.0.0)
+- [Documentation](https://hen3-steenberg.github.io/COS3712/).
+
 This section explains how to set up your environment and build the project.
 
 ## 1. Dependencies
