@@ -1,7 +1,7 @@
 module;
-#include <vulkan/vulkan.hpp>
 #include "imgui.h"
 #include <charconv>
+#include <vulkan/vulkan.hpp>
 export module MenuOverlay;
 import obscure.imgui;
 import obscure.utils.stopwatch;
@@ -9,7 +9,8 @@ import GlobalState;
 
 #pragma region application
 bool should_exit = false;
-export [[nodiscard]] bool MenuExit() noexcept
+export [[nodiscard]] bool
+MenuExit() noexcept
 {
     return should_exit;
 }
@@ -25,7 +26,7 @@ obscure::stopwatch<>::duration_t frame_time;
 #pragma region controls
 bool showControls = true;
 constexpr const char controlsText[] =
-R"(Controls   :
+    R"(Controls   :
     Exit            -> [ESC]
     Switch Camera   -> [TAB]
 Vehicle Controls:
@@ -49,22 +50,25 @@ Lights:
 
 #pragma region camera mode
 bool show_camera_mode = false;
-const char * getModeText() {
+const char*
+getModeText()
+{
     if (global::CurrentCameraMode() == global::CameraMode::Free) {
         return "Free     Camera";
-    }
-    else {
+    } else {
         return "Top Down Camera";
     }
 }
 #pragma endregion
-void drawOverlay()
+void
+drawOverlay()
 {
     static bool overlayOpen = false;
     constexpr static float PAD = 10.0f;
-    constexpr static ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove;
-    if (showFramerate || show_camera_mode || showControls)
-    {
+    constexpr static ImGuiWindowFlags window_flags =
+        ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |
+        ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove;
+    if (showFramerate || show_camera_mode || showControls) {
         const ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImVec2 work_pos = viewport->WorkPos; // Use work area to avoid menu-bar/task-bar, if any!
         ImVec2 work_size = viewport->WorkSize;
@@ -76,10 +80,8 @@ void drawOverlay()
         ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
         ImGui::SetNextWindowBgAlpha(0.35f);
 
-        if (ImGui::Begin("Overlay", &overlayOpen, window_flags))
-        {
-            if (showFramerate)
-            {
+        if (ImGui::Begin("Overlay", &overlayOpen, window_flags)) {
+            if (showFramerate) {
                 char frameRateText[] = "Frame Rate :     ";
                 char* number_start = frameRateText + 13;
                 std::to_chars(frameRateText + 13, frameRateText + 17, static_cast<uint32_t>(1.0 / frame_time.count()));
@@ -88,8 +90,7 @@ void drawOverlay()
             if (show_camera_mode) {
                 ImGui::Text(getModeText());
             }
-            if (showControls)
-            {
+            if (showControls) {
                 ImGui::Text(controlsText);
             }
 
@@ -98,14 +99,12 @@ void drawOverlay()
     }
 }
 
-void drawMenu()
+void
+drawMenu()
 {
-    if (ImGui::BeginMainMenuBar())
-    {
-        if (ImGui::BeginMenu("Application"))
-        {
-            if (ImGui::MenuItem("Exit", "ESC"))
-            {
+    if (ImGui::BeginMainMenuBar()) {
+        if (ImGui::BeginMenu("Application")) {
+            if (ImGui::MenuItem("Exit", "ESC")) {
                 should_exit = true;
             }
             if (ImGui::MenuItem("Toggle Camera Mode", "[TAB]")) {
@@ -113,8 +112,7 @@ void drawMenu()
             }
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("Overlay"))
-        {
+        if (ImGui::BeginMenu("Overlay")) {
             ImGui::MenuItem("Show Framerate", "", &showFramerate);
             ImGui::MenuItem("Show Camera Mode", "", &show_camera_mode);
             ImGui::MenuItem("Show Controls", "", &showControls);
@@ -128,9 +126,13 @@ void drawMenu()
         if (ImGui::BeginMenu("Lights")) {
             if (ImGui::BeginMenu("Sun")) {
                 ImGui::MenuItem("Update Sun Direction", "P", &global::updateSun());
-                ImGui::DragFloat("Sun Angle", &global::sunAngle(), 0.005f, 0.0f, 360.0f, "%.3f", ImGuiSliderFlags_WrapAround);
-                ImGui::SliderFloat("Sun Angular Speed", &global::sunSpeed(), 0.1f, 10.0f, "%.3f", ImGuiSliderFlags_Logarithmic);
-                ImGui::ColorEdit3("Sun Color", global::sunColor().data(), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_PickerHueWheel);
+                ImGui::DragFloat(
+                    "Sun Angle", &global::sunAngle(), 0.005f, 0.0f, 360.0f, "%.3f", ImGuiSliderFlags_WrapAround);
+                ImGui::SliderFloat(
+                    "Sun Angular Speed", &global::sunSpeed(), 0.1f, 10.0f, "%.3f", ImGuiSliderFlags_Logarithmic);
+                ImGui::ColorEdit3("Sun Color",
+                                  global::sunColor().data(),
+                                  ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_PickerHueWheel);
                 ImGui::EndMenu();
             }
             ImGui::EndMenu();
@@ -149,9 +151,10 @@ void drawMenu()
     }
 }
 
-export void drawMenuOverlay(vk::CommandBuffer command_buffer)
+export void
+drawMenuOverlay(vk::CommandBuffer command_buffer)
 {
-    obscure::imgui::frame imgui_frame{command_buffer};
+    obscure::imgui::frame imgui_frame{ command_buffer };
     frame_time = stopwatch.lap_time();
     drawMenu();
     drawOverlay();

@@ -1,7 +1,7 @@
 module;
-#include <vector>
 #include <span>
 #include <string_view>
+#include <vector>
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
@@ -15,13 +15,16 @@ export struct Building {
 
     template<typename Ctx>
     Building(Ctx const& ctx, std::span<const char> obj, std::string_view mtl)
-        : model(ObjectModel::load_from_memory(ctx, obj, mtl)),
-        locations()
-    {}
+        : model(ObjectModel::load_from_memory(ctx, obj, mtl))
+        , locations()
+    {
+    }
 
-    void add_instance(float angle, glm::vec3 offset) {
+    void
+    add_instance(float angle, glm::vec3 offset)
+    {
         glm::mat4 translate = glm::translate(glm::identity<glm::mat4>(), offset);
-        glm::mat4 transform = glm::rotate(translate, glm::radians(angle), glm::vec3{0.0f, 0.0f, 1.0f});
+        glm::mat4 transform = glm::rotate(translate, glm::radians(angle), glm::vec3{ 0.0f, 0.0f, 1.0f });
         locations.emplace_back(transform);
     }
 };

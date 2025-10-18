@@ -17,17 +17,20 @@ export struct Vehicle {
 
     template<typename Ctx>
     Vehicle(Ctx const& ctx, std::span<const char> obj, std::string_view mtl)
-        : model(std::make_shared<ObjectModel>(ObjectModel::load_from_memory(ctx, obj, mtl))),
-        transform(glm::identity<glm::mat4>())
-    {}
+        : model(std::make_shared<ObjectModel>(ObjectModel::load_from_memory(ctx, obj, mtl)))
+        , transform(glm::identity<glm::mat4>())
+    {
+    }
 
     Vehicle(Vehicle const& other)
-        : model(other.model),
-        transform(glm::identity<glm::mat4>())
-    {}
+        : model(other.model)
+        , transform(glm::identity<glm::mat4>())
+    {
+    }
 
     Vehicle(Vehicle&& other)
-        : model(std::move(other.model)),
-        transform(other.transform)
-    {}
+        : model(std::move(other.model))
+        , transform(other.transform)
+    {
+    }
 };

@@ -11,14 +11,17 @@ import obscure.glfw;
 import obscure.utils.stopwatch;
 import GlobalState;
 
-void detectCameraMode() {
+void
+detectCameraMode()
+{
     global::toggleKey<GLFW_KEY_TAB>(global::toggleCameraMode);
 }
 
-glm::vec3 updateCameraPosition(glm::vec3 orientation) noexcept
+glm::vec3
+updateCameraPosition(glm::vec3 orientation) noexcept
 {
     auto window = global::windowRef();
-    glm::vec3 translation = glm::vec3{0.0f, 0.0f, 0.0f};
+    glm::vec3 translation = glm::vec3{ 0.0f, 0.0f, 0.0f };
 
     if (window.isKeyPressed(GLFW_KEY_W)) {
         translation += orientation;
@@ -28,21 +31,23 @@ glm::vec3 updateCameraPosition(glm::vec3 orientation) noexcept
     }
     if (window.isKeyPressed(GLFW_KEY_A)) {
 
-        translation -= glm::normalize(glm::cross(orientation, glm::vec3{0.0f, 0.0f, 1.0f}));
+        translation -= glm::normalize(glm::cross(orientation, glm::vec3{ 0.0f, 0.0f, 1.0f }));
     }
     if (window.isKeyPressed(GLFW_KEY_D)) {
-        translation += glm::normalize(glm::cross(orientation, glm::vec3{0.0f, 0.0f, 1.0f}));
+        translation += glm::normalize(glm::cross(orientation, glm::vec3{ 0.0f, 0.0f, 1.0f }));
     }
     if (window.isKeyPressed(GLFW_KEY_SPACE)) {
-        translation += glm::vec3{0.0f, 0.0f, 1.0f};
+        translation += glm::vec3{ 0.0f, 0.0f, 1.0f };
     }
     if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
-        translation -= glm::vec3{0.0f, 0.0f, 1.0f};
+        translation -= glm::vec3{ 0.0f, 0.0f, 1.0f };
     }
-    return (translation != glm::vec3{0.0f, 0.0f, 0.0f})? glm::normalize(translation) : translation;
+    return (translation != glm::vec3{ 0.0f, 0.0f, 0.0f }) ? glm::normalize(translation) : translation;
 }
 
-glm::vec3 calculateCameraOrientation(float & pan, float & tilt) noexcept {
+glm::vec3
+calculateCameraOrientation(float& pan, float& tilt) noexcept
+{
     tilt = std::clamp(tilt, -0.99f, 0.99f);
     if (pan < -2.0f) {
         pan += 4.0f;
@@ -59,13 +64,14 @@ glm::vec3 calculateCameraOrientation(float & pan, float & tilt) noexcept {
     float tilt_cos = glm::cos(tilt_angle);
     float tilt_sin = glm::sin(tilt_angle);
 
-    return glm::vec3{pan_cos * tilt_cos, pan_sin * tilt_cos, tilt_sin};
+    return glm::vec3{ pan_cos * tilt_cos, pan_sin * tilt_cos, tilt_sin };
 }
 
-export glm::mat4 GetCameraTransform() noexcept
+export glm::mat4
+GetCameraTransform() noexcept
 {
     static constexpr float camera_speed = 30.0f;
-    static glm::vec3 orientation {-1.0f, 0.0f, 0.0f};
+    static glm::vec3 orientation{ -1.0f, 0.0f, 0.0f };
     static float pan_angle = 2.0f;
     static float tilt_angle = 0.0f;
     static obscure::stopwatch<float> frame_timer;
@@ -80,7 +86,6 @@ export glm::mat4 GetCameraTransform() noexcept
 
 #pragma region rotation
 
-
         static auto PrevMode = global::CurrentCameraMode();
         static auto [prev_x, prev_y] = window.getCursorPos();
         auto [mouse_x, mouse_y] = window.getCursorPos();
@@ -89,19 +94,17 @@ export glm::mat4 GetCameraTransform() noexcept
             tilt_angle -= elapsed_seconds * static_cast<float>(mouse_y - prev_y);
 
             orientation = calculateCameraOrientation(pan_angle, tilt_angle);
-
         }
         PrevMode = global::CurrentCameraMode();
         prev_x = mouse_x;
         prev_y = mouse_y;
 
 #pragma endregion
-        return glm::lookAt(global::cameraPosition(), global::cameraPosition() + orientation, glm::vec3{0.0f, 0.0f, 1.0f});
-    }
-    else {
+        return glm::lookAt(
+            global::cameraPosition(), global::cameraPosition() + orientation, glm::vec3{ 0.0f, 0.0f, 1.0f });
+    } else {
 
-
-        glm::vec3 up = glm::normalize(glm::vec3{orientation.x, orientation.y, 0.0f});
+        glm::vec3 up = glm::normalize(glm::vec3{ orientation.x, orientation.y, 0.0f });
 
         global::cameraPosition() += camera_speed * elapsed_seconds * updateCameraPosition(up);
 
@@ -117,10 +120,6 @@ export glm::mat4 GetCameraTransform() noexcept
 
 #pragma endregion
 
-        return glm::lookAt(global::cameraPosition(), global::cameraPosition() + glm::vec3{0.0f, 0.0f, -1.0f}, up);
+        return glm::lookAt(global::cameraPosition(), global::cameraPosition() + glm::vec3{ 0.0f, 0.0f, -1.0f }, up);
     }
-
-
-
-
 }

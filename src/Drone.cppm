@@ -1,6 +1,6 @@
 module;
-#include <vector>
 #include <ranges>
+#include <vector>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
@@ -20,26 +20,30 @@ export struct DroneList {
 
     template<typename CtxT>
     explicit DroneList(CtxT const& ctx)
-        : model(ObjectModel::load_from_memory(ctx, resources::drone_obj(), resources::drone_mtl())),
-          rotation(glm::vec3{0.0f, 0.0f, 200.0f}),
-          locations()
-    {}
+        : model(ObjectModel::load_from_memory(ctx, resources::drone_obj(), resources::drone_mtl()))
+        , rotation(glm::vec3{ 0.0f, 0.0f, 200.0f })
+        , locations()
+    {
+    }
 
-    void animate() {
+    void
+    animate()
+    {
         auto update = evaluate_animations(glm::identity<glm::mat4>(), rotation);
         if (global::AnimateFirst2Drones()) {
-            for (auto & transform : locations) {
+            for (auto& transform : locations) {
                 transform *= update;
             }
-        }
-        else {
-            for (auto & transform : locations | std::ranges::views::drop(2)) {
+        } else {
+            for (auto& transform : locations | std::ranges::views::drop(2)) {
                 transform *= update;
             }
         }
     }
 
-    void add_drone(glm::vec3 offset) {
+    void
+    add_drone(glm::vec3 offset)
+    {
         locations.emplace_back(glm::translate(glm::identity<glm::mat4>(), offset));
     }
 };
