@@ -2,18 +2,20 @@ module;
 #include "rapidobj/rapidobj.hpp"
 
 #include <filesystem>
-#include <span>
 #include <fstream>
+#include <span>
 export module write_obj;
 export import triangle;
 
-export void write_file(std::filesystem::path const & path, std::span<const triangle> faces, rapidobj::Material const& material) {
+export void
+write_file(std::filesystem::path const& path, std::span<const triangle> faces, rapidobj::Material const& material)
+{
 
     std::filesystem::path mtl_path = path;
     mtl_path.replace_extension(".mtl");
 
     {
-        std::ofstream file{path};
+        std::ofstream file{ path };
 
         file << "# Object seperation tool\n";
         file << "# Each processed object has one material (may not logically be a single object)\n";
@@ -21,11 +23,10 @@ export void write_file(std::filesystem::path const & path, std::span<const trian
         file << "o " << path.stem() << "\n";
 
         for (auto const& face : faces) {
-            for (auto const& vertex: face.vertices) {
+            for (auto const& vertex : face.vertices) {
                 file << "v " << std::fixed << vertex.x << " " << vertex.y << " " << vertex.z << "\n";
             }
         }
-
 
         file << std::endl;
 
@@ -58,23 +59,24 @@ export void write_file(std::filesystem::path const & path, std::span<const trian
     }
 
     {
-        std::ofstream mtl_file{mtl_path};
+        std::ofstream mtl_file{ mtl_path };
 
         mtl_file << "# Object seperation tool\n";
         mtl_file << "# Each processed object has one material (may not logically be a single object)\n";
 
         mtl_file << "newmtl " << material.name << "\n";
         mtl_file << "Ns " << std::fixed << material.shininess << "\n";
-        mtl_file << "Ka " << std::fixed << material.ambient[0] << " " << material.ambient[1] << " " << material.ambient[2] << "\n";
-        mtl_file << "Ks " << std::fixed << material.specular[0] << " " << material.specular[1] << " " << material.specular[2] << "\n";
-        mtl_file << "Ke " << std::fixed << material.emission[0] << " " << material.emission[1] << " " << material.emission[2] << "\n";
+        mtl_file << "Ka " << std::fixed << material.ambient[0] << " " << material.ambient[1] << " "
+                 << material.ambient[2] << "\n";
+        mtl_file << "Ks " << std::fixed << material.specular[0] << " " << material.specular[1] << " "
+                 << material.specular[2] << "\n";
+        mtl_file << "Ke " << std::fixed << material.emission[0] << " " << material.emission[1] << " "
+                 << material.emission[2] << "\n";
         mtl_file << "Ni " << std::fixed << material.ior << "\n";
         mtl_file << "d " << std::fixed << material.dissolve << "\n";
         mtl_file << "illum " << material.illum << "\n";
         mtl_file << "map_Kd " << material.diffuse_texname << "\n";
-        mtl_file << "map_Bump -bm " << std::fixed << material.bump_texopt.bump_multiplier << " " << material.bump_texname << "\n";
+        mtl_file << "map_Bump -bm " << std::fixed << material.bump_texopt.bump_multiplier << " "
+                 << material.bump_texname << "\n";
     }
-
-
-
 }

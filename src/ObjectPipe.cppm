@@ -34,7 +34,7 @@ struct spanstream : std::streambuf {
     {
     }
 
-  protected:
+protected:
     pos_type
     seekoff(off_type offset, std::ios_base::seekdir dir, std::ios_base::openmode) override
     {
