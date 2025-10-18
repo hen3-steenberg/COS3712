@@ -35,8 +35,8 @@ target_sources(cos3712
         "src/Animation.cppm"
         "src/Drone.cppm"
 )
-target_link_libraries(cos3712 PRIVATE obscure)
-target_link_libraries(cos3712 PRIVATE imgui)
+target_link_libraries(cos3712 PRIVATE obscure::obscure)
+target_link_libraries(cos3712 PRIVATE obscure::imgui)
 target_link_libraries(cos3712 PRIVATE rapidobj::rapidobj)
 add_dependencies(cos3712 custom_shaders)
 
