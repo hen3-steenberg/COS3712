@@ -1,0 +1,22 @@
+// Project-local debug tasks
+//
+// For more documentation on how to configure debug tasks,
+// see: https://zed.dev/docs/debugger
+[
+  {
+    "label": "Debug COS3712 (Debug)",
+    "adapter": "CodeLLDB",
+    "program": "./build/Debug/cos3712",
+    "cwd": "./build/Debug",
+    "request": "launch",
+    "build": "CMake Build Debug"
+  },
+  {
+    "label": "Debug COS3712 (Release)",
+    "adapter": "CodeLLDB",
+    "program": "./build/RelWithDebInfo/cos3712",
+    "cwd": "./build/RelWithDebInfo",
+    "request": "launch",
+    "build": "CMake Build Release With Debug Info"
+  }
+]
