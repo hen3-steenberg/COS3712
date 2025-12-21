@@ -60,7 +60,7 @@
     {
       "name": "linux-multi",
       "hidden": false,
-      "generator": "Ninja Multi-Config",
+      "generator": "\"Ninja Multi-Config\"",
       "binaryDir": "${sourceDir}/build",
       "installDir": "${sourceDir}/out/install/${presetName}",
       "architecture": {

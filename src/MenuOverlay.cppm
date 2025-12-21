@@ -85,13 +85,13 @@ drawOverlay()
                 char frameRateText[] = "Frame Rate :     ";
                 char* number_start = frameRateText + 13;
                 std::to_chars(frameRateText + 13, frameRateText + 17, static_cast<uint32_t>(1.0 / frame_time.count()));
-                ImGui::Text(frameRateText);
+                ImGui::Text("%s", frameRateText);
             }
             if (show_camera_mode) {
-                ImGui::Text(getModeText());
+                ImGui::Text("%s", getModeText());
             }
             if (showControls) {
-                ImGui::Text(controlsText);
+                ImGui::Text("%s", controlsText);
             }
 
             ImGui::End();
